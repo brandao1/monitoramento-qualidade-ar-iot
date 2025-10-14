@@ -260,7 +260,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8668/v2/entities/urn:ngsi-ld:Sensor:001",
+							"raw": "http://localhost:1026/v2/entities/urn:ngsi-ld:Sensor:001",
 							"protocol": "http",
 							"host": [
 								"localhost"

@@ -23,7 +23,7 @@ services:
       - fiware-net
 
   cratedb:
-    image: crate:latest
+    image: crate:4.8.3
     hostname: cratedb
     container_name: crate-db
     ports:
@@ -36,7 +36,7 @@ services:
       - fiware-net
 
   quantumleap:
-    image: orchestracities/quantumleap:latest
+    image: orchestracities/quantumleap:1.0.0
     hostname: quantumleap
     container_name: quantum-leap
     depends_on:
