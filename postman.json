@@ -1,0 +1,281 @@
+{
+	"info": {
+		"_postman_id": "a1b2c3d4-e5f6-7890-1234-abcdef123456",
+		"name": "TCC FIWARE - Testes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Passo 1: Health Checks",
+			"item": [
+				{
+					"name": "Get Orion Version",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:1026/version",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1026",
+							"path": [
+								"version"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get IoT Agent Info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4041/iot/about",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4041",
+							"path": [
+								"iot",
+								"about"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get QuantumLeap Version",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8668/version",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8668",
+							"path": [
+								"version"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Passo 2: Configuração",
+			"item": [
+				{
+					"name": "Provisionar Serviço no IoT Agent",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "fiware-service",
+								"value": "tcc_service"
+							},
+							{
+								"key": "fiware-servicepath",
+								"value": "/test"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"services\": [\n        {\n            \"apikey\": \"tccapikey\",\n            \"cbroker\": \"http://orion:1026\",\n            \"entity_type\": \"Sensor\",\n            \"resource\": \"/iot/json\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4041/iot/services",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4041",
+							"path": [
+								"iot",
+								"services"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Dispositivo Virtual",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "fiware-service",
+								"value": "tcc_service"
+							},
+							{
+								"key": "fiware-servicepath",
+								"value": "/test"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"devices\": [\n        {\n            \"device_id\": \"sensor001\",\n            \"entity_name\": \"urn:ngsi-ld:Sensor:001\",\n            \"entity_type\": \"Sensor\",\n            \"attributes\": [\n                {\"object_id\": \"t\", \"name\": \"temperature\", \"type\": \"Number\"},\n                {\"object_id\": \"h\", \"name\": \"humidity\", \"type\": \"Number\"},\n                {\"object_id\": \"p25\", \"name\": \"pm25\", \"type\": \"Number\"}\n            ]\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4041/iot/devices",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4041",
+							"path": [
+								"iot",
+								"devices"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Subscrição no Orion",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "fiware-service",
+								"value": "tcc_service"
+							},
+							{
+								"key": "fiware-servicepath",
+								"value": "/test"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Notifica QuantumLeap sobre mudancas nos sensores\",\n    \"subject\": {\n        \"entities\": [\n            {\n                \"idPattern\": \".*\",\n                \"type\": \"Sensor\"\n            }\n        ],\n        \"condition\": {\n            \"attrs\": [\"temperature\", \"humidity\", \"pm25\"]\n        }\n    },\n    \"notification\": {\n        \"http\": {\n            \"url\": \"http://quantumleap:8668/v2/notify\"\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1026/v2/subscriptions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1026",
+							"path": [
+								"v2",
+								"subscriptions"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Passo 3: Verificação de Dados",
+			"item": [
+				{
+					"name": "Verificar Entidade no Orion (Tempo Real)",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "fiware-service",
+								"value": "tcc_service"
+							},
+							{
+								"key": "fiware-servicepath",
+								"value": "/test"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:1026/v2/entities/urn:ngsi-ld:Sensor:001?options=keyValues",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1026",
+							"path": [
+								"v2",
+								"entities",
+								"urn:ngsi-ld:Sensor:001"
+							],
+							"query": [
+								{
+									"key": "options",
+									"value": "keyValues"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verificar Histórico no QuantumLeap",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "fiware-service",
+								"value": "tcc_service"
+							},
+							{
+								"key": "fiware-servicepath",
+								"value": "/test"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8668/v2/entities/urn:ngsi-ld:Sensor:001",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8668",
+							"path": [
+								"v2",
+								"entities",
+								"urn:ngsi-ld:Sensor:001"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

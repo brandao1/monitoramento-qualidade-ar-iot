@@ -1,0 +1,168 @@
+services:
+  mongo:
+    image: mongo:7.0
+    hostname: mongo
+    container_name: mongo-db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - fiware-net
+
+  orion:
+    image: fiware/orion:3.11.0
+    hostname: orion
+    container_name: orion-cb
+    depends_on:
+      - mongo
+    ports:
+      - "1026:1026"
+    command: -dbhost mongo -logLevel DEBUG
+    networks:
+      - fiware-net
+
+  cratedb:
+    image: crate:latest
+    hostname: cratedb
+    container_name: crate-db
+    ports:
+      - "4200:4200"
+      - "5432:5432"
+    command: -Cdiscovery.type=single-node
+    volumes:
+      - cratedb-data:/data
+    networks:
+      - fiware-net
+
+  quantumleap:
+    image: orchestracities/quantumleap:latest
+    hostname: quantumleap
+    container_name: quantum-leap
+    depends_on:
+      - orion
+      - cratedb
+    ports:
+      - "8668:8668"
+    environment:
+      - QL_CRATE_HOST=cratedb
+      - QL_ORION_HOST=orion
+    networks:
+      - fiware-net
+
+  mosquitto:
+    image: eclipse-mosquitto:2.0.18
+    hostname: mosquitto
+    container_name: mqtt-broker
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+    networks:
+      - fiware-net
+
+  iot-agent:
+    image: fiware/iotagent-json:3.3.0
+    hostname: iot-agent
+    container_name: iot-agent-json
+    depends_on:
+      - mongo
+      - mosquitto
+    ports:
+      - "4041:4041"
+    environment:
+      - IOTA_CB_HOST=orion
+      - IOTA_CB_PORT=1026
+      - IOTA_NORTH_PORT=4041
+      - IOTA_REGISTRY_TYPE=mongodb
+      - IOTA_MONGO_HOST=mongo
+      - IOTA_MONGO_PORT=27017
+      - IOTA_MONGO_DB=iotagentjson
+      - IOTA_MQTT_HOST=mosquitto
+      - IOTA_MQTT_PORT=1883
+      - IOTA_DEFAULT_RESOURCE=/iot/json
+      - IOTA_LOG_LEVEL=DEBUG
+    networks:
+      - fiware-net
+
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    hostname: rabbitmq
+    container_name: rabbit-mq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - fiware-net
+
+  dgraph-zero:
+    image: dgraph/dgraph:v21.03.0
+    container_name: dgraph-zero
+    hostname: dgraph-zero
+    ports:
+      - "5080:5080"
+      - "6080:6080"
+    volumes:
+      - dgraph-data:/dgraph
+    command: dgraph zero --my=dgraph-zero:5080
+    networks:
+      - fiware-net
+
+  dgraph-alpha:
+    image: dgraph/dgraph:v21.03.0
+    container_name: dgraph-alpha
+    hostname: dgraph-alpha
+    depends_on:
+      - dgraph-zero
+    ports:
+      - "8080:8080"
+      - "9080:9080"
+    volumes:
+      - dgraph-data:/dgraph
+    command: dgraph alpha --my=dgraph-alpha:7080 --lru_mb=2048 --zero=dgraph-zero:5080
+    networks:
+      - fiware-net
+
+  fogflow-master:
+    image: fogflow/master:3.2
+    hostname: fogflow-master
+    container_name: fogflow-master
+    depends_on:
+      - orion
+      - rabbitmq
+      - dgraph-alpha
+    ports:
+      - "1060:1060"
+    environment:
+      - my_ip=fogflow-master
+      - rabbitmq_host=rabbitmq
+      - contextbroker_host=orion
+      - dgraph_host=dgraph-alpha
+    networks:
+      - fiware-net
+
+  fogflow-designer:
+    image: fogflow/designer:3.2
+    hostname: fogflow-designer
+    container_name: fogflow-designer
+    depends_on:
+      - fogflow-master
+      - dgraph-alpha
+    ports:
+      - "8090:8080"
+    environment:
+      - master_ip=fogflow-master
+      - dgraph_host=dgraph-alpha
+    networks:
+      - fiware-net
+
+networks:
+  fiware-net:
+    driver: bridge
+
+volumes:
+  mongo-data:
+  cratedb-data:
+  dgraph-data:
