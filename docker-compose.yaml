@@ -34,19 +34,27 @@ services:
       - cratedb-data:/data
     networks:
       - fiware-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4200/_node/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   quantumleap:
     image: orchestracities/quantumleap:1.0.0
     hostname: quantumleap
     container_name: quantum-leap
     depends_on:
-      - orion
-      - cratedb
+      orion:
+        condition: service_started
+      cratedb:
+        condition: service_started
     ports:
       - "8668:8668"
     environment:
-      - QL_CRATE_HOST=cratedb
+      - CRATE_HOST=cratedb
       - QL_ORION_HOST=orion
+      - LOGLEVEL=DEBUG
     networks:
       - fiware-net
 
