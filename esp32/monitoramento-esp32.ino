@@ -1,75 +1,51 @@
-/*********************************************************************
-  Código combinado para ESP32:
-  - Lê dados dos sensores DHT22, MQ-135, MQ-7, MQ-131.
-  - Exibe OS DADOS DE TODOS OS SENSORES em um servidor web local.
-**********************************************************************/
-
-// Bibliotecas essenciais
 #include <WiFi.h>
 #include <WiFiClient.h>
 #include <WebServer.h>
 #include <ESPmDNS.h>
 #include <DHT.h>
 #include <MQUnifiedsensor.h>
+#include <PubSubClient.h>
+#include <ArduinoJson.h>
 
-// =====================================================================
-//                          Dados Essenciais
-// =====================================================================
-// --- Configurações de Wi-Fi ---
 const char *ssid = "PedroElivia";
 const char *password = "157171geb";
 
-// --- Configurações dos Pinos dos Sensores ---
-#define DHT22_PIN 22 // Pino digital para o sensor DHT22
-#define MQ135_PIN 34 // Pino analógico para o sensor MQ-135
-#define MQ131_PIN 35 // Pino analógico para o sensor MQ-131
-#define MQ7_PIN 32 // Pino analógico para o sensor MQ-7
+#define DHT22_PIN 22
+#define MQ135_PIN 34
+#define MQ131_PIN 35
+#define MQ7_PIN 32
 #define BOARD "ESP-32"
 
-// =====================================================================
-//                  Configurações do Sensor MQ-135
-// =====================================================================
+const char *mqtt_server = "0.tcp.sa.ngrok.io";
+const int mqtt_port = 12950;
+const char *mqtt_client_id = "esp32-sensor001";
+const char *mqtt_topic = "/tccapikey/sensor001/attrs";
+
 #define SENSOR_TYPE_MQ135 "MQ-135"
 #define MQ135_RATIO_CLEAN_AIR 3.6
 
-// =====================================================================
-//                  Configurações do Sensor MQ-7
-// =====================================================================
 #define SENSOR_VOLTAGE_RESOLUTION 3.3
 #define SENSOR_TYPE_MQ7 "MQ-7"
 #define SENSOR_ADC_RESOLUTION 12
 #define SENSOR_CLEAN_AIR_RATIO 27.5
 #define SENSOR_PWM_PIN 5
-// Intervalos de tempo para ciclos de aquecimento e leitura
-
-const unsigned long HEATING_HIGH_DURATION = 60 * 1000; // 60 segundos em 5V
-const unsigned long HEATING_LOW_DURATION = 90 * 1000;  // 90 segundos em 1.4V
-
-// =====================================================================
-// Configurações do Sensor MQ-131
-// =====================================================================
+const unsigned long HEATING_HIGH_DURATION = 60 * 1000;
+const unsigned long HEATING_LOW_DURATION = 90 * 1000;
 
 #define SENSOR_TYPE_MQ131 "MQ-131"
 #define RATIO_MQ131_CLEAN_AIR 8.9
+#define CALC_A_O3 8.9507
+#define CALC_B_O3 -1.1601
 
-/************************Parâmetros de Regressão********************************/
-// Estes são os valores A e B da curva de sensibilidade do datasheet (PPM = A * (Rs/R0)^B)
-#define CALC_A_O3 8.9507  // Valor A para Ozônio
-#define CALC_B_O3 -1.1601 // Valor B para Ozônio
-
-// =====================================================================
-// Inicialização dos Objetos
-// =====================================================================
 WebServer server(80);
 DHT dht22(DHT22_PIN, DHT22);
 MQUnifiedsensor MQ135(BOARD, SENSOR_VOLTAGE_RESOLUTION, SENSOR_ADC_RESOLUTION, MQ135_PIN, SENSOR_TYPE_MQ135);
 MQUnifiedsensor MQ7(BOARD, SENSOR_VOLTAGE_RESOLUTION, SENSOR_ADC_RESOLUTION, MQ7_PIN, SENSOR_TYPE_MQ7);
 MQUnifiedsensor MQ131(BOARD, SENSOR_VOLTAGE_RESOLUTION, SENSOR_ADC_RESOLUTION, MQ131_PIN, SENSOR_TYPE_MQ131);
-WiFiClient espClient;
 
-// =====================================================================
-// Variáveis Globais para Armazenar as Leituras
-// =====================================================================
+WiFiClient espClient;
+PubSubClient mqttClient(espClient);
+
 float lastTemp = 0.0;
 float lastHum = 0.0;
 float lastCO2 = 0.0;
@@ -79,15 +55,11 @@ float lastNH4 = 0.0;
 float lastAcetone = 0.0;
 float lastO3 = 0.0;
 
-// Controle de tempo para envio de dados
 long lastMsg = 0;
-long interval = 5000; // Intervalo para LER SENSORES e ENVIAR DADOS (5 segundos)
+long interval = 10000;
 unsigned long heatingStartTime = 0;
 bool isHighVoltageHeating = true;
 
-// =====================================================================
-// Funções para leitura dos sensores
-// =====================================================================
 float readDHTTemperature() {
     float t = dht22.readTemperature();
     return isnan(t) ? -999.0 : t;
@@ -98,20 +70,18 @@ float readDHTHumidity() {
     return isnan(h) ? -999.0 : h;
 }
 
-
 void calibrateMQ135() {
-
     Serial.print("Calibrando MQ-135, por favor aguarde.");
-    float calcR0 = 0;   
-    for(int i = 1; i<=10; i ++)   {     
-        MQ135.update(); // Update data, the arduino will be read the voltage on the analog pin     
-        calcR0 += MQ135.calibrate(MQ135_RATIO_CLEAN_AIR);    
-        Serial.print(".");   
+    float calcR0 = 0;
+    for(int i = 1; i<=10; i ++) {
+        MQ135.update();
+        calcR0 += MQ135.calibrate(MQ135_RATIO_CLEAN_AIR);
+        Serial.print(".");
         Serial.print("\n");
         Serial.print(MQ135.calibrate(MQ135_RATIO_CLEAN_AIR));
         Serial.print(".");
-    }   
-    MQ135.setR0(calcR0/10);   
+    }
+    MQ135.setR0(calcR0/10);
     Serial.println("  Calibração concluída!");
     if (isinf(calcR0))
     {
@@ -126,16 +96,13 @@ void calibrateMQ135() {
 }
 
 void setupSensorMQ135() {
-     MQ135.setRegressionMethod(1); //_PPM =  a*ratio^b   
-    // Configurate the ecuation values to get NH4 concentration    
-    MQ135.init();    
+     MQ135.setRegressionMethod(1);
+    MQ135.init();
     calibrateMQ135();
 }
 
-
 void calibrateSensorMQ7() {
     Serial.print("Calibrando sensor MQ-7... ");
-
     float calcR0 = 0;
     for (int i = 1; i <= 10; i++)
     {
@@ -145,53 +112,45 @@ void calibrateSensorMQ7() {
         Serial.print(MQ7.calibrate(SENSOR_CLEAN_AIR_RATIO));
         Serial.print(".");
     }
-
     MQ7.setR0(calcR0 / 10);
     Serial.println(" Concluído!");
-    // Verificações de erro na calibração
     if (isinf(calcR0))
     {
         Serial.println("Erro: Circuito aberto! Verifique o cabeamento.");
         calibrateSensorMQ7();
     }
-
     if (calcR0 == 0)
     {
         Serial.println("Erro: Curto-circuito no pino analógico!");
         calibrateSensorMQ7();
     }
 }
+
 void setupSensorMQ7() {
-    // Configuração do modelo matemático de PPM
-    MQ7.setRegressionMethod(1); // _PPM = a * ratio^b
+    MQ7.setRegressionMethod(1);
     MQ7.setA(99.042);
     MQ7.setB(-1.518);
-    // Inicialização do sensor
     MQ7.init();
     pinMode(SENSOR_PWM_PIN, OUTPUT);
-    // Calibração
     calibrateSensorMQ7();
 }
 
 void setupSensorMQ131() {
-    MQ131.setRegressionMethod(1); // _PPM = a * ratio^b
+    MQ131.setRegressionMethod(1);
     MQ131.setA(CALC_A_O3);
     MQ131.setB(CALC_B_O3);
-    // Inicialização do sensor
     MQ131.init();
     pinMode(SENSOR_PWM_PIN, OUTPUT);
-    // Calibração
     iniciarCalibracaoMQ131();
 }
+
 void iniciarCalibracaoMQ131() {
     Serial.println("===================================");
-    Serial.println("MODO DE CALIBRAÇÃO ATIVADO.");
+    Serial.println("MODO DE CALIBRAÇÃO ATIVADO (MQ-131).");
     Serial.println("Certifique-se que o sensor está em AR LIMPO e");
     Serial.println("já foi aquecido por pelo menos 15 minutos.");
     Serial.println("Iniciando calibração (tirando 10 amostras)...");
-
     float R0_CALIBRADO = 0.0;
-
     for (int i = 1; i <= 10; i++) {
         MQ131.update();
         R0_CALIBRADO += MQ131.calibrate(RATIO_MQ131_CLEAN_AIR);
@@ -199,17 +158,23 @@ void iniciarCalibracaoMQ131() {
         Serial.print(MQ131.calibrate(RATIO_MQ131_CLEAN_AIR));
         Serial.print(".");
     }
-
     MQ131.setR0(R0_CALIBRADO / 10);
     Serial.println(" Concluído!");
+        if (isinf(R0_CALIBRADO))
+    {
+        Serial.println("Erro: Circuito aberto! Verifique o cabeamento (MQ-131).");
+        iniciarCalibracaoMQ131();
+    }
+    if (R0_CALIBRADO == 0)
+    {
+        Serial.println("Erro: Curto-circuito no pino analógico (MQ-131)!");
+        iniciarCalibracaoMQ131();
+    }
 }
 
-// =====================================================================
-// Função para lidar com requisições na página web
-// =====================================================================
 void handleRoot()
 {
-    char msg[2500]; // Aumentado o tamanho para comportar mais dados
+    char msg[2500];
     snprintf(msg, 2500,
              "<html>\
   <head>\
@@ -246,21 +211,29 @@ void handleRoot()
     server.send(200, "text/html", msg);
 }
 
-// =====================================================================
-// SETUP - Executado uma vez na inicialização
-// =====================================================================
+void reconnectMQTT() {
+  while (!mqttClient.connected()) {
+    Serial.print("Tentando conexão MQTT...");
+    if (mqttClient.connect(mqtt_client_id)) {
+      Serial.println("conectado!");
+    } else {
+      Serial.print("Falha, rc=");
+      Serial.print(mqttClient.state());
+      Serial.println(" tentando novamente em 5 segundos");
+      delay(5000);
+    }
+  }
+}
+
 void setup(void)
 {
-    Serial.begin(460800);
-
+    Serial.begin(115200);
     pinMode(LED_BUILTIN, OUTPUT);
-
 
     dht22.begin();
     setupSensorMQ7();
     heatingStartTime = millis();
     setupSensorMQ131();
-
     setupSensorMQ135();
 
     WiFi.mode(WIFI_STA);
@@ -275,77 +248,80 @@ void setup(void)
     Serial.print("Endereço IP: ");
     Serial.println(WiFi.localIP());
 
+    mqttClient.setServer(mqtt_server, mqtt_port);
+    Serial.println("Servidor MQTT configurado.");
+
     if (MDNS.begin("esp32"))
     {
         Serial.println("MDNS responder iniciado. Acesse por http://esp32.local");
     }
-
     server.on("/", handleRoot);
     server.begin();
     Serial.println("Servidor HTTP iniciado");
 }
 
-// =====================================================================
-// LOOP - Executado continuamente
-// =====================================================================
 void loop(void)
 {
     server.handleClient();
+
+    if (!mqttClient.connected()) {
+      reconnectMQTT();
+    }
+    mqttClient.loop();
 
     long now = millis();
     if (now - lastMsg > interval)
     {
         lastMsg = now;
+        Serial.println("\nLendo sensores...");
 
-        Serial.println("\nLendo sensores e atualizando dados...");
-
-        // --- Leitura e armazenamento dos sensores ---
         lastTemp = readDHTTemperature();
         lastHum = readDHTHumidity();
 
         MQ135.update();
-        MQ135.setA(110.47);
-        MQ135.setB(-2.862);
-        lastCO2 = MQ135.readSensor();
-        // MQ135.setA(605.18);
-        // MQ135.setB(-3.937);
-        // lastCO = MQ135.readSensor();
-        MQ135.setA(44.947);
-        MQ135.setB(-3.445);
-        lastToluene = MQ135.readSensor();
-        MQ135.setA(102.2);
-        MQ135.setB(-2.473);
-        lastNH4 = MQ135.readSensor();
-        MQ135.setA(34.668);
-        MQ135.setB(-3.369);
-        lastAcetone = MQ135.readSensor();
+        MQ135.setA(110.47); MQ135.setB(-2.862); lastCO2 = MQ135.readSensor();
+        MQ135.setA(44.947); MQ135.setB(-3.445); lastToluene = MQ135.readSensor();
+        MQ135.setA(102.2);  MQ135.setB(-2.473); lastNH4 = MQ135.readSensor();
+        MQ135.setA(34.668); MQ135.setB(-3.369); lastAcetone = MQ135.readSensor();
 
-        // Ciclo de aquecimento e leitura do sensor MQ-7
-        if (isHighVoltageHeating)
-        {
-            analogWrite(SENSOR_PWM_PIN, 255); // 5V
-
-            if (now - heatingStartTime >= HEATING_HIGH_DURATION)
-            {
-                isHighVoltageHeating = false;
-                heatingStartTime = now;
+        if (isHighVoltageHeating) {
+            analogWrite(SENSOR_PWM_PIN, 255);
+            if (now - heatingStartTime >= HEATING_HIGH_DURATION) {
+                isHighVoltageHeating = false; heatingStartTime = now;
+            }
+        } else {
+            analogWrite(SENSOR_PWM_PIN, 75);
+            if (now - heatingStartTime >= HEATING_LOW_DURATION) {
+                isHighVoltageHeating = true; heatingStartTime = now;
             }
         }
-        else
-        {
-            analogWrite(SENSOR_PWM_PIN, 20); // 1.4V
+        MQ7.update(); lastCO = MQ7.readSensor();
 
-            if (now - heatingStartTime >= HEATING_LOW_DURATION)
-            {
-                isHighVoltageHeating = true;
-                heatingStartTime = now;
-            }
+        MQ131.update(); lastO3 = MQ131.readSensor();
+
+        StaticJsonDocument<256> jsonDoc;
+
+        if (lastTemp > -999.0) jsonDoc["t"] = lastTemp;
+        if (lastHum > -999.0) jsonDoc["h"] = lastHum;
+        if (lastCO2 >= 0) jsonDoc["co2"] = lastCO2;
+        if (lastCO >= 0) jsonDoc["co"] = lastCO;
+        if (lastToluene >= 0) jsonDoc["tol"] = lastToluene;
+        if (lastNH4 >= 0) jsonDoc["nh4"] = lastNH4;
+        if (lastAcetone >= 0) jsonDoc["ace"] = lastAcetone;
+        if (lastO3 >= 0) jsonDoc["o3"] = lastO3;
+
+        char payload[256];
+        serializeJson(jsonDoc, payload);
+
+        Serial.print("Publicando no MQTT: ");
+        Serial.println(payload);
+        if (mqttClient.publish(mqtt_topic, payload)) {
+          Serial.println("Publicado com sucesso!");
+          digitalWrite(LED_BUILTIN, HIGH);
+          delay(100);
+          digitalWrite(LED_BUILTIN, LOW);
+        } else {
+          Serial.println("Falha ao publicar!");
         }
-        MQ7.update();
-        lastCO = MQ7.readSensor();
-
-        MQ131.update();
-        lastO3 = MQ131.readSensor();
     }
-    digitalWrite(LED_BUILTIN, HIGH);
 }

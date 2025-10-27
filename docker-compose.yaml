@@ -157,6 +157,19 @@ services:
       - dgraph_host=dgraph-alpha
     networks:
       - fiware-net
+    
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    hostname: grafana
+    depends_on:
+      - cratedb
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+    networks:
+      - fiware-net
 
 networks:
   fiware-net:
@@ -166,3 +179,4 @@ volumes:
   mongo-data:
   cratedb-data:
   dgraph-data:
+  grafana-data:
