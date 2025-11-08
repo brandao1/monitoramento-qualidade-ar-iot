@@ -41,7 +41,7 @@ services:
       retries: 5
 
   quantumleap:
-    image: orchestracities/quantumleap:1.0.0
+    image: orchestracities/quantumleap:latest
     hostname: quantumleap
     container_name: quantum-leap
     depends_on:
@@ -129,7 +129,7 @@ services:
       - "9080:9080"
     volumes:
       - dgraph-data:/dgraph
-    command: dgraph alpha --my=dgraph-alpha:7080 --lru_mb=2048 --zero=dgraph-zero:5080
+    command: dgraph alpha --my=dgraph-alpha:7080 --zero=dgraph-zero:5080
     networks:
       - fiware-net
 
@@ -143,11 +143,8 @@ services:
       - dgraph-alpha
     ports:
       - "1060:1060"
-    environment:
-      - my_ip=fogflow-master
-      - rabbitmq_host=rabbitmq
-      - contextbroker_host=orion
-      - dgraph_host=dgraph-alpha
+    volumes:
+      - ./config.json:/config.json
     networks:
       - fiware-net
 
@@ -161,8 +158,8 @@ services:
     ports:
       - "8090:8080"
     environment:
-      - master_ip=fogflow-master
-      - dgraph_host=dgraph-alpha
+      - master_ip=fogflow-master:1060
+      - dgraph_host=dgraph-alpha:9080
     networks:
       - fiware-net
     
