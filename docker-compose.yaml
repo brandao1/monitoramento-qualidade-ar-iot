@@ -34,19 +34,27 @@ services:
       - cratedb-data:/data
     networks:
       - fiware-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4200/_node/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   quantumleap:
-    image: orchestracities/quantumleap:1.0.0
+    image: orchestracities/quantumleap:latest
     hostname: quantumleap
     container_name: quantum-leap
     depends_on:
-      - orion
-      - cratedb
+      orion:
+        condition: service_started
+      cratedb:
+        condition: service_started
     ports:
       - "8668:8668"
     environment:
-      - QL_CRATE_HOST=cratedb
+      - CRATE_HOST=cratedb
       - QL_ORION_HOST=orion
+      - LOGLEVEL=DEBUG
     networks:
       - fiware-net
 
@@ -121,7 +129,7 @@ services:
       - "9080:9080"
     volumes:
       - dgraph-data:/dgraph
-    command: dgraph alpha --my=dgraph-alpha:7080 --lru_mb=2048 --zero=dgraph-zero:5080
+    command: dgraph alpha --my=dgraph-alpha:7080 --zero=dgraph-zero:5080
     networks:
       - fiware-net
 
@@ -135,11 +143,8 @@ services:
       - dgraph-alpha
     ports:
       - "1060:1060"
-    environment:
-      - my_ip=fogflow-master
-      - rabbitmq_host=rabbitmq
-      - contextbroker_host=orion
-      - dgraph_host=dgraph-alpha
+    volumes:
+      - ./config.json:/config.json
     networks:
       - fiware-net
 
@@ -153,8 +158,8 @@ services:
     ports:
       - "8090:8080"
     environment:
-      - master_ip=fogflow-master
-      - dgraph_host=dgraph-alpha
+      - master_ip=fogflow-master:1060
+      - dgraph_host=dgraph-alpha:9080
     networks:
       - fiware-net
     
@@ -170,6 +175,20 @@ services:
       - grafana-data:/var/lib/grafana
     networks:
       - fiware-net
+
+  analysis:
+    build: ./analysis
+    hostname: analysis
+    container_name: analysis
+    ports:
+      - "5000:5000"
+    networks:
+      - fiware-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 networks:
   fiware-net:

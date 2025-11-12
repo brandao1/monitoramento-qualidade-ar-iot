@@ -1,0 +1,6 @@
+{
+    "my_ip": "fogflow-master",
+    "rabbitmq_host": "rabbitmq",
+    "contextbroker_host": "orion",
+    "dgraph_host": "dgraph-alpha"
+}
