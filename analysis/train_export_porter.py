@@ -28,14 +28,20 @@ except Exception as e:
 sql_query = """
     SELECT 
         time_index, 
-        t AS temperature, 
-        h AS humidity, 
-        co2, 
-        co, 
-        tol, 
-        nh4, 
-        ace, 
-        o3 
+        temperature, 
+        humidity, 
+        carbondioxide, 
+        carbonmonoxide, 
+        alcohol, 
+        toluene, 
+        ammonium, 
+        acetone,
+        ozone,
+        nitrogendioxide,
+        chlorine,
+        pm1,
+        pm25,
+        pm10 
     FROM "mttcc_service"."etsensor"
     ORDER BY time_index DESC
 """
@@ -43,7 +49,7 @@ sql_query = """
 try:
     df = pd.read_sql(sql_query, connection)
     print(f"Dados carregados com sucesso! {len(df)} linhas encontradas.")
-    numeric_cols = ['temperature', 'humidity', 'co2', 'co', 'tol', 'nh4', 'ace', 'o3']
+    numeric_cols = ['temperature', 'humidity', 'carbondioxide', 'carbonmonoxide', 'alcohol', 'toluene', 'ammonium', 'acetone', 'ozone', 'nitrogendioxide', 'chlorine', 'pm1', 'pm25', 'pm10']
     df[numeric_cols] = df[numeric_cols].apply(pd.to_numeric, errors='coerce')
 except Exception as e:
     print(f"Erro ao buscar dados: {e}")
@@ -57,7 +63,7 @@ if df.empty:
     raise SystemExit(0)
 
 # --- Limpeza ---
-features = ['temperature', 'humidity', 'co2', 'co', 'tol', 'nh4', 'ace', 'o3']
+features = ['temperature', 'humidity', 'carbondioxide', 'carbonmonoxide', 'alcohol', 'toluene', 'ammonium', 'acetone', 'ozone', 'nitrogendioxide', 'chlorine', 'pm1', 'pm25', 'pm10']
 df_clean = df.dropna(subset=features)
 print(f"Removidas {len(df) - len(df_clean)} linhas com dados ausentes.")
 
@@ -106,17 +112,17 @@ joblib.dump(scaler, os.path.join(OUTPUT_DIR, "scaler.pkl"))
 print("Gerando labels de qualidade...")
 
 def classificar_qualidade_ar(row):
-    if row['o3'] > 50 or row['co'] > 500 or row['co2'] > 2000:
+    if row['ozone'] > 50 or row['carbonmonoxide'] > 500 or row['carbondioxide'] > 2000:
         return 'ruim'
-    elif row['o3'] > 30 or row['co'] > 200 or row['co2'] > 1000:
+    elif row['ozone'] > 30 or row['carbonmonoxide'] > 200 or row['carbondioxide'] > 1000:
         return 'moderada'
     else:
         return 'boa'
 
 y = df_clean.apply(classificar_qualidade_ar, axis=1)
 
-if len(y.unique()) < 2:
-    raise SystemExit("Erro: Somente uma classe encontrada.")
+# if len(y.unique()) < 2:
+#     raise SystemExit("Erro: Somente uma classe encontrada.")
 
 X_train, X_test, y_train, y_test = train_test_split(
     X_scaled, y, test_size=0.3, random_state=42, stratify=y
@@ -136,7 +142,7 @@ print(f"Acurácia RandomForest: {acc*100:.2f}%")
 
 joblib.dump(rf_model, os.path.join(OUTPUT_DIR, "random_forest_model.pkl"))
 
-print("\n✅ MODELOS TREINADOS COM SUCESSO")
+print("\n MODELOS TREINADOS COM SUCESSO")
 print("Arquivos salvos em:", OUTPUT_DIR)
 print("\nPróximo passo: rodar exportação para C via m2cgen:")
 print("python exportar_para_c.py")

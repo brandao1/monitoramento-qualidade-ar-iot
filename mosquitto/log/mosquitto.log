@@ -1,373 +1,82 @@
-1759098468: mosquitto version 2.0.18 starting
-1759098468: Config loaded from /mosquitto/config/mosquitto.conf.
-1759098468: Opening ipv4 listen socket on port 1883.
-1759098468: Opening ipv6 listen socket on port 1883.
-1759098468: mosquitto version 2.0.18 running
-1759098472: New connection from 172.18.0.6:53048 on port 1883.
-1759098472: New client connected from 172.18.0.6:53048 as iotajson_8bbb2d66 (p2, c1, k60).
-1760399170: mosquitto version 2.0.18 starting
-1760399170: Config loaded from /mosquitto/config/mosquitto.conf.
-1760399170: Opening ipv4 listen socket on port 1883.
-1760399170: Opening ipv6 listen socket on port 1883.
-1760399170: mosquitto version 2.0.18 running
-1760399172: New connection from 172.18.0.6:42548 on port 1883.
-1760399172: New client connected from 172.18.0.6:42548 as iotajson_8a92d32a (p2, c1, k60).
-1760399358: Client iotajson_8a92d32a closed its connection.
-1760399359: mosquitto version 2.0.18 terminating
-1760399359: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1760400263: mosquitto version 2.0.18 starting
-1760400263: Config loaded from /mosquitto/config/mosquitto.conf.
-1760400263: Opening ipv4 listen socket on port 1883.
-1760400263: Opening ipv6 listen socket on port 1883.
-1760400263: mosquitto version 2.0.18 running
-1760400265: New connection from 172.18.0.8:38374 on port 1883.
-1760400265: New client connected from 172.18.0.8:38374 as iotajson_e73d0f82 (p2, c1, k60).
-1760402227: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1760402281: Client iotajson_e73d0f82 closed its connection.
-1760402282: mosquitto version 2.0.18 terminating
-1760402282: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1760807901: mosquitto version 2.0.18 starting
-1760807901: Config loaded from /mosquitto/config/mosquitto.conf.
-1760807901: Opening ipv4 listen socket on port 1883.
-1760807901: Opening ipv6 listen socket on port 1883.
-1760807901: mosquitto version 2.0.18 running
-1760807908: New connection from 172.18.0.9:60772 on port 1883.
-1760807908: New client connected from 172.18.0.9:60772 as iotajson_8ef5b703 (p2, c1, k60).
-1760809701: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1760811502: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1760813303: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1760815104: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1760816905: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1760818706: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1761597263: mosquitto version 2.0.18 starting
-1761597263: Config loaded from /mosquitto/config/mosquitto.conf.
-1761597263: Opening ipv4 listen socket on port 1883.
-1761597263: Opening ipv6 listen socket on port 1883.
-1761597263: mosquitto version 2.0.18 running
-1761597268: New connection from 172.18.0.10:55472 on port 1883.
-1761597268: New client connected from 172.18.0.10:55472 as iotajson_2ef32df9 (p2, c1, k60).
-1761599064: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1761600297: New connection from 172.18.0.1:59976 on port 1883.
-1761600297: Client <unknown> disconnected due to protocol error.
-1761600297: New connection from 172.18.0.1:59988 on port 1883.
-1761600297: Client <unknown> disconnected due to protocol error.
-1761600297: New connection from 172.18.0.1:59998 on port 1883.
-1761600297: Client <unknown> disconnected due to protocol error.
-1761600297: New connection from 172.18.0.1:60002 on port 1883.
-1761600297: Client <unknown> disconnected due to protocol error.
-1761600297: New connection from 172.18.0.1:60006 on port 1883.
-1761600297: Client <unknown> disconnected due to protocol error.
-1761600297: New connection from 172.18.0.1:60018 on port 1883.
-1761600297: Client <unknown> disconnected due to protocol error.
-1761600297: New connection from 172.18.0.1:60022 on port 1883.
-1761600297: Client <unknown> disconnected due to protocol error.
-1761600297: New connection from 172.18.0.1:60034 on port 1883.
-1761600297: Client <unknown> disconnected due to protocol error.
-1761600297: New connection from 172.18.0.1:60044 on port 1883.
-1761600297: Client <unknown> disconnected due to protocol error.
-1761600297: New connection from 172.18.0.1:60056 on port 1883.
-1761600297: Client <unknown> disconnected due to protocol error.
-1761600865: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1761602601: New connection from 172.18.0.1:45176 on port 1883.
-1761602601: New client connected from 172.18.0.1:45176 as esp32-sensor001 (p2, c1, k15).
-1761602666: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1761602776: New connection from 172.18.0.1:56592 on port 1883.
-1761602776: Client esp32-sensor001 already connected, closing old connection.
-1761602776: New client connected from 172.18.0.1:56592 as esp32-sensor001 (p2, c1, k15).
-1761602819: Client esp32-sensor001 has exceeded timeout, disconnecting.
-1761602875: New connection from 172.18.0.1:53608 on port 1883.
-1761602875: New client connected from 172.18.0.1:53608 as esp32-sensor001 (p2, c1, k15).
-1761603089: Client esp32-sensor001 closed its connection.
-1761603094: Client iotajson_2ef32df9 closed its connection.
-1761603095: mosquitto version 2.0.18 terminating
-1761603095: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1761603103: mosquitto version 2.0.18 starting
-1761603103: Config loaded from /mosquitto/config/mosquitto.conf.
-1761603103: Opening ipv4 listen socket on port 1883.
-1761603103: Opening ipv6 listen socket on port 1883.
-1761603103: mosquitto version 2.0.18 running
-1761603106: New connection from 172.18.0.10:36872 on port 1883.
-1761603106: New client connected from 172.18.0.10:36872 as iotajson_f0720736 (p2, c1, k60).
-1761604094: New connection from 172.18.0.1:57558 on port 1883.
-1761604094: New client connected from 172.18.0.1:57558 as esp32-sensor001 (p2, c1, k15).
-1761604117: Client esp32-sensor001 has exceeded timeout, disconnecting.
-1761604163: New connection from 172.18.0.1:43966 on port 1883.
-1761604163: New client connected from 172.18.0.1:43966 as esp32-sensor001 (p2, c1, k15).
-1761604177: New connection from 172.18.0.1:46808 on port 1883.
-1761604177: Client esp32-sensor001 already connected, closing old connection.
-1761604177: New client connected from 172.18.0.1:46808 as esp32-sensor001 (p2, c1, k15).
-1761604186: New connection from 172.18.0.1:48638 on port 1883.
-1761604186: Client esp32-sensor001 already connected, closing old connection.
-1761604186: New client connected from 172.18.0.1:48638 as esp32-sensor001 (p2, c1, k15).
-1761604191: New connection from 172.18.0.1:44134 on port 1883.
-1761604191: Client esp32-sensor001 already connected, closing old connection.
-1761604191: New client connected from 172.18.0.1:44134 as esp32-sensor001 (p2, c1, k15).
-1761604243: Client esp32-sensor001 has exceeded timeout, disconnecting.
-1761604291: New connection from 172.18.0.1:45882 on port 1883.
-1761604291: New client connected from 172.18.0.1:45882 as esp32-sensor001 (p2, c1, k15).
-1761604517: Client iotajson_f0720736 closed its connection.
-1761604518: mosquitto version 2.0.18 terminating
-1761604518: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1761604530: mosquitto version 2.0.18 starting
-1761604530: Config loaded from /mosquitto/config/mosquitto.conf.
-1761604530: Opening ipv4 listen socket on port 1883.
-1761604530: Opening ipv6 listen socket on port 1883.
-1761604530: mosquitto version 2.0.18 running
-1761604533: New connection from 172.18.0.10:48846 on port 1883.
-1761604533: New client connected from 172.18.0.10:48846 as iotajson_16517d6e (p2, c1, k60).
-1761604539: New connection from 172.18.0.1:47492 on port 1883.
-1761604539: New client connected from 172.18.0.1:47492 as esp32-sensor001 (p2, c1, k15).
-1761604697: Client iotajson_16517d6e closed its connection.
-1761604697: mosquitto version 2.0.18 terminating
-1761604697: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1761604715: mosquitto version 2.0.18 starting
-1761604715: Config loaded from /mosquitto/config/mosquitto.conf.
-1761604715: Opening ipv4 listen socket on port 1883.
-1761604715: Opening ipv6 listen socket on port 1883.
-1761604715: mosquitto version 2.0.18 running
-1761604717: New connection from 172.18.0.10:54628 on port 1883.
-1761604717: New connection from 172.18.0.1:54714 on port 1883.
-1761604717: Client <unknown> closed its connection.
-1761604717: New client connected from 172.18.0.10:54628 as iotajson_040a559d (p2, c1, k60).
-1761604718: New connection from 172.18.0.1:52514 on port 1883.
-1761604718: New client connected from 172.18.0.1:52514 as esp32-sensor001 (p2, c1, k15).
-1761604845: Client iotajson_040a559d closed its connection.
-1761604846: mosquitto version 2.0.18 terminating
-1761604846: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1761604862: mosquitto version 2.0.18 starting
-1761604862: Config loaded from /mosquitto/config/mosquitto.conf.
-1761604862: Opening ipv4 listen socket on port 1883.
-1761604862: Opening ipv6 listen socket on port 1883.
-1761604862: mosquitto version 2.0.18 running
-1761604864: New connection from 172.18.0.10:41586 on port 1883.
-1761604864: New client connected from 172.18.0.10:41586 as iotajson_27b3c0f9 (p2, c1, k60).
-1761604867: New connection from 172.18.0.1:32778 on port 1883.
-1761604867: New client connected from 172.18.0.1:32778 as esp32-sensor001 (p2, c1, k15).
-1761605612: Client esp32-sensor001 has exceeded timeout, disconnecting.
-1761605681: New connection from 172.18.0.1:46006 on port 1883.
-1761605681: New client connected from 172.18.0.1:46006 as esp32-sensor001 (p2, c1, k15).
-1761606662: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1761608463: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1761610264: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1761612065: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1761613249: Client esp32-sensor001 has exceeded timeout, disconnecting.
-1761613866: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1761614156: Client iotajson_27b3c0f9 closed its connection.
-1761614157: mosquitto version 2.0.18 terminating
-1761614157: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1761614171: mosquitto version 2.0.18 starting
-1761614171: Config loaded from /mosquitto/config/mosquitto.conf.
-1761614171: Opening ipv4 listen socket on port 1883.
-1761614171: Opening ipv6 listen socket on port 1883.
-1761614171: mosquitto version 2.0.18 running
-1761614174: New connection from 172.18.0.8:35596 on port 1883.
-1761614174: New client connected from 172.18.0.8:35596 as iotajson_d10f87fe (p2, c1, k60).
-1761739825: mosquitto version 2.0.18 starting
-1761739825: Config loaded from /mosquitto/config/mosquitto.conf.
-1761739825: Opening ipv4 listen socket on port 1883.
-1761739825: Opening ipv6 listen socket on port 1883.
-1761739825: mosquitto version 2.0.18 running
-1761739828: New connection from 172.18.0.10:42036 on port 1883.
-1761739828: New client connected from 172.18.0.10:42036 as iotajson_6f87cb16 (p2, c1, k60).
-1761740102: New connection from 172.18.0.1:34560 on port 1883.
-1761740102: New client connected from 172.18.0.1:34560 as esp32-sensor001 (p2, c1, k15).
-1761740173: Client esp32-sensor001 has exceeded timeout, disconnecting.
-1761740181: New connection from 172.18.0.1:56978 on port 1883.
-1761740184: New client connected from 172.18.0.1:56978 as esp32-sensor001 (p2, c1, k15).
-1761740233: Client esp32-sensor001 has exceeded timeout, disconnecting.
-1761741029: New connection from 172.18.0.1:50326 on port 1883.
-1761741029: New client connected from 172.18.0.1:50326 as esp32-sensor001 (p2, c1, k15).
-1761741055: Client esp32-sensor001 has exceeded timeout, disconnecting.
-1761741226: New connection from 172.18.0.1:47618 on port 1883.
-1761741226: New client connected from 172.18.0.1:47618 as esp32-sensor001 (p2, c1, k15).
-1761741626: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1761743426: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1761745227: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1761747028: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1761748829: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1761750612: Client esp32-sensor001 has exceeded timeout, disconnecting.
-1761750630: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1761752431: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1761754232: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1761756033: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1761757834: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1761759635: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1761761436: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1761763237: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1761765038: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1761766839: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1762125144: mosquitto version 2.0.18 starting
-1762125144: Config loaded from /mosquitto/config/mosquitto.conf.
-1762125144: Opening ipv4 listen socket on port 1883.
-1762125144: Opening ipv6 listen socket on port 1883.
-1762125144: mosquitto version 2.0.18 running
-1762125148: New connection from 172.18.0.10:46972 on port 1883.
-1762125148: New client connected from 172.18.0.10:46972 as iotajson_b6a97884 (p2, c1, k60).
-1762125295: Client iotajson_b6a97884 closed its connection.
-1762125297: mosquitto version 2.0.18 terminating
-1762125297: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1762125655: mosquitto version 2.0.18 starting
-1762125655: Config loaded from /mosquitto/config/mosquitto.conf.
-1762125655: Opening ipv4 listen socket on port 1883.
-1762125655: Opening ipv6 listen socket on port 1883.
-1762125655: mosquitto version 2.0.18 running
-1762125658: New connection from 172.18.0.10:49472 on port 1883.
-1762125658: New client connected from 172.18.0.10:49472 as iotajson_907954d2 (p2, c1, k60).
-1762127455: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1762129040: mosquitto version 2.0.18 starting
-1762129040: Config loaded from /mosquitto/config/mosquitto.conf.
-1762129040: Opening ipv4 listen socket on port 1883.
-1762129040: Opening ipv6 listen socket on port 1883.
-1762129040: mosquitto version 2.0.18 running
-1762129043: New connection from 172.18.0.10:32926 on port 1883.
-1762129043: New client connected from 172.18.0.10:32926 as iotajson_cca8188f (p2, c1, k60).
-1762129453: Client iotajson_cca8188f closed its connection.
-1762129453: mosquitto version 2.0.18 terminating
-1762129453: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1762129532: mosquitto version 2.0.18 starting
-1762129532: Config loaded from /mosquitto/config/mosquitto.conf.
-1762129532: Opening ipv4 listen socket on port 1883.
-1762129532: Opening ipv6 listen socket on port 1883.
-1762129532: mosquitto version 2.0.18 running
-1762129536: New connection from 172.18.0.10:44634 on port 1883.
-1762129536: New client connected from 172.18.0.10:44634 as iotajson_c35fd4c0 (p2, c1, k60).
-1762130337: Client iotajson_c35fd4c0 closed its connection.
-1762130338: mosquitto version 2.0.18 terminating
-1762130338: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1762130376: mosquitto version 2.0.18 starting
-1762130376: Config loaded from /mosquitto/config/mosquitto.conf.
-1762130376: Opening ipv4 listen socket on port 1883.
-1762130376: Opening ipv6 listen socket on port 1883.
-1762130376: mosquitto version 2.0.18 running
-1762130378: New connection from 172.18.0.10:43300 on port 1883.
-1762130378: New client connected from 172.18.0.10:43300 as iotajson_0b8d1602 (p2, c1, k60).
-1762130756: Client iotajson_0b8d1602 closed its connection.
-1762130757: mosquitto version 2.0.18 terminating
-1762130757: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1762130773: mosquitto version 2.0.18 starting
-1762130773: Config loaded from /mosquitto/config/mosquitto.conf.
-1762130773: Opening ipv4 listen socket on port 1883.
-1762130773: Opening ipv6 listen socket on port 1883.
-1762130773: mosquitto version 2.0.18 running
-1762130775: New connection from 172.18.0.10:40946 on port 1883.
-1762130775: New client connected from 172.18.0.10:40946 as iotajson_899ccbcd (p2, c1, k60).
-1762131294: Client iotajson_899ccbcd closed its connection.
-1762131295: mosquitto version 2.0.18 terminating
-1762131295: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1762131300: mosquitto version 2.0.18 starting
-1762131300: Config loaded from /mosquitto/config/mosquitto.conf.
-1762131300: Opening ipv4 listen socket on port 1883.
-1762131300: Opening ipv6 listen socket on port 1883.
-1762131300: mosquitto version 2.0.18 running
-1762131302: New connection from 172.18.0.10:46930 on port 1883.
-1762131302: New client connected from 172.18.0.10:46930 as iotajson_89d7c4fb (p2, c1, k60).
-1762131312: Client iotajson_89d7c4fb closed its connection.
-1762131324: mosquitto version 2.0.18 starting
-1762131324: Config loaded from /mosquitto/config/mosquitto.conf.
-1762131324: Opening ipv4 listen socket on port 1883.
-1762131324: Opening ipv6 listen socket on port 1883.
-1762131324: mosquitto version 2.0.18 running
-1762131326: New connection from 172.18.0.10:39840 on port 1883.
-1762131326: New client connected from 172.18.0.10:39840 as iotajson_3546b3e5 (p2, c1, k60).
-1762133125: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1762133468: Client iotajson_3546b3e5 closed its connection.
-1762133468: mosquitto version 2.0.18 terminating
-1762133468: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1762133484: mosquitto version 2.0.18 starting
-1762133484: Config loaded from /mosquitto/config/mosquitto.conf.
-1762133484: Opening ipv4 listen socket on port 1883.
-1762133484: Opening ipv6 listen socket on port 1883.
-1762133484: mosquitto version 2.0.18 running
-1762133486: New connection from 172.18.0.9:53962 on port 1883.
-1762133486: New client connected from 172.18.0.9:53962 as iotajson_15dee184 (p2, c1, k60).
-1762135284: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1762137085: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1762203908: mosquitto version 2.0.18 starting
-1762203908: Config loaded from /mosquitto/config/mosquitto.conf.
-1762203908: Opening ipv4 listen socket on port 1883.
-1762203908: Opening ipv6 listen socket on port 1883.
-1762203908: mosquitto version 2.0.18 running
-1762203912: New connection from 172.18.0.10:32798 on port 1883.
-1762203912: New client connected from 172.18.0.10:32798 as iotajson_7270d644 (p2, c1, k60).
-1762203968: Client iotajson_7270d644 closed its connection.
-1762203969: mosquitto version 2.0.18 terminating
-1762203969: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1762203984: mosquitto version 2.0.18 starting
-1762203984: Config loaded from /mosquitto/config/mosquitto.conf.
-1762203984: Opening ipv4 listen socket on port 1883.
-1762203984: Opening ipv6 listen socket on port 1883.
-1762203984: mosquitto version 2.0.18 running
-1762203987: New connection from 172.18.0.9:37304 on port 1883.
-1762203987: New client connected from 172.18.0.9:37304 as iotajson_0d269c7c (p2, c1, k60).
-1762204504: New connection from 172.18.0.1:57422 on port 1883.
-1762204504: New client connected from 172.18.0.1:57422 as esp32-sensor001 (p2, c1, k15).
-1762204542: Client esp32-sensor001 has exceeded timeout, disconnecting.
-1762205785: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1762206377: New connection from 172.18.0.1:45044 on port 1883.
-1762206377: New client connected from 172.18.0.1:45044 as esp32-sensor001 (p2, c1, k15).
-1762207586: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1762209386: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1762211187: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1762212988: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1762214789: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1762216590: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1762216749: Client esp32-sensor001 closed its connection.
-1762216912: New connection from 172.18.0.1:45068 on port 1883.
-1762216912: New client connected from 172.18.0.1:45068 as esp32-sensor001 (p2, c1, k15).
-1762218391: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1762218709: Client esp32-sensor001 closed its connection.
-1762477272: mosquitto version 2.0.18 starting
-1762477272: Config loaded from /mosquitto/config/mosquitto.conf.
-1762477272: Opening ipv4 listen socket on port 1883.
-1762477272: Opening ipv6 listen socket on port 1883.
-1762477272: mosquitto version 2.0.18 running
-1762477275: New connection from 172.18.0.9:33992 on port 1883.
-1762477275: New client connected from 172.18.0.9:33992 as iotajson_2912dbfc (p2, c1, k60).
-1762477335: Client iotajson_2912dbfc closed its connection.
-1762477335: mosquitto version 2.0.18 terminating
-1762477335: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1762477351: mosquitto version 2.0.18 starting
-1762477351: Config loaded from /mosquitto/config/mosquitto.conf.
-1762477351: Opening ipv4 listen socket on port 1883.
-1762477351: Opening ipv6 listen socket on port 1883.
-1762477351: mosquitto version 2.0.18 running
-1762477353: New connection from 172.18.0.10:39520 on port 1883.
-1762477353: New client connected from 172.18.0.10:39520 as iotajson_430065a4 (p2, c1, k60).
-1762479151: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1762480952: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1762482753: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1762620382: mosquitto version 2.0.18 starting
-1762620382: Config loaded from /mosquitto/config/mosquitto.conf.
-1762620382: Opening ipv4 listen socket on port 1883.
-1762620382: Opening ipv6 listen socket on port 1883.
-1762620382: mosquitto version 2.0.18 running
-1762620385: New connection from 172.18.0.10:34064 on port 1883.
-1762620385: New client connected from 172.18.0.10:34064 as iotajson_f0fa9569 (p2, c1, k60).
-1762621380: Client iotajson_f0fa9569 closed its connection.
-1762621380: mosquitto version 2.0.18 terminating
-1762621380: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1762621390: mosquitto version 2.0.18 starting
-1762621390: Config loaded from /mosquitto/config/mosquitto.conf.
-1762621390: Opening ipv4 listen socket on port 1883.
-1762621390: Opening ipv6 listen socket on port 1883.
-1762621390: mosquitto version 2.0.18 running
-1762621393: New connection from 172.18.0.10:34898 on port 1883.
-1762621393: New client connected from 172.18.0.10:34898 as iotajson_0ec5704b (p2, c1, k60).
-1762621630: mosquitto version 2.0.18 starting
-1762621630: Config loaded from /mosquitto/config/mosquitto.conf.
-1762621630: Opening ipv4 listen socket on port 1883.
-1762621630: Opening ipv6 listen socket on port 1883.
-1762621630: mosquitto version 2.0.18 running
-1762621633: New connection from 172.18.0.10:55724 on port 1883.
-1762621633: New client connected from 172.18.0.10:55724 as iotajson_fc28c8db (p2, c1, k60).
-1762621638: Client iotajson_fc28c8db closed its connection.
-1762621639: mosquitto version 2.0.18 terminating
-1762621639: Saving in-memory database to /mosquitto/data//mosquitto.db.
-1762621655: mosquitto version 2.0.18 starting
-1762621655: Config loaded from /mosquitto/config/mosquitto.conf.
-1762621655: Opening ipv4 listen socket on port 1883.
-1762621655: Opening ipv6 listen socket on port 1883.
-1762621655: mosquitto version 2.0.18 running
-1762621658: New connection from 172.18.0.10:34270 on port 1883.
-1762621658: New client connected from 172.18.0.10:34270 as iotajson_28dc9393 (p2, c1, k60).
-1762623455: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1762727822: mosquitto version 2.0.18 starting
+1762727822: Config loaded from /mosquitto/config/mosquitto.conf.
+1762727822: Opening ipv4 listen socket on port 1883.
+1762727822: Opening ipv6 listen socket on port 1883.
+1762727822: mosquitto version 2.0.18 running
+1762727830: New connection from 172.20.0.10:48736 on port 1883.
+1762727830: New client connected from 172.20.0.10:48736 as iotajson_17bdecde (p2, c1, k60).
+1762729353: New connection from 192.168.0.3:50963 on port 1883.
+1762729353: New client connected from 192.168.0.3:50963 as esp32-sensor001 (p2, c1, k15).
+1762729622: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1762731423: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1762732542: New connection from 192.168.0.3:63155 on port 1883.
+1762732542: Client esp32-sensor001 already connected, closing old connection.
+1762732542: New client connected from 192.168.0.3:63155 as esp32-sensor001 (p2, c1, k15).
+1762733224: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1762734229: Client esp32-sensor001 has exceeded timeout, disconnecting.
+1762734231: New connection from 192.168.0.3:58736 on port 1883.
+1762734231: New client connected from 192.168.0.3:58736 as esp32-sensor001 (p2, c1, k15).
+1762734649: Client esp32-sensor001 has exceeded timeout, disconnecting.
+1762734905: New connection from 192.168.0.3:51150 on port 1883.
+1762734905: New client connected from 192.168.0.3:51150 as esp32-sensor001 (p2, c1, k15).
+1762735025: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1762735107: Client iotajson_17bdecde closed its connection.
+1762735107: mosquitto version 2.0.18 terminating
+1762735107: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1762737319: mosquitto version 2.0.18 starting
+1762737319: Config loaded from /mosquitto/config/mosquitto.conf.
+1762737319: Opening ipv4 listen socket on port 1883.
+1762737319: Opening ipv6 listen socket on port 1883.
+1762737319: mosquitto version 2.0.18 running
+1762737319: New connection from 192.168.0.3:51435 on port 1883.
+1762737319: New client connected from 192.168.0.3:51435 as esp32-sensor001 (p2, c1, k15).
+1762737324: New connection from 172.20.0.9:53738 on port 1883.
+1762737324: New client connected from 172.20.0.9:53738 as iotajson_fb80ae21 (p2, c1, k60).
+1762739119: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1762740921: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1762742722: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1762744522: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1762779198: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1762779198: Client esp32-sensor001 has exceeded timeout, disconnecting.
+1762779198: Client iotajson_fb80ae21 has exceeded timeout, disconnecting.
+1762779200: New connection from 172.20.0.9:43986 on port 1883.
+1762779200: New client connected from 172.20.0.9:43986 as iotajson_fb80ae21 (p2, c1, k60).
+1762779204: New connection from 172.20.0.9:43992 on port 1883.
+1762779204: New client connected from 172.20.0.9:43992 as iotajson_a5b40eea (p2, c1, k60).
+1762779713: New connection from 192.168.0.3:55766 on port 1883.
+1762779713: New client connected from 192.168.0.3:55766 as esp32-sensor001 (p2, c1, k15).
+1762780999: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1762782192: Client esp32-sensor001 has exceeded timeout, disconnecting.
+1762782407: Client iotajson_a5b40eea closed its connection.
+1762782407: mosquitto version 2.0.18 terminating
+1762782407: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1762968893: mosquitto version 2.0.18 starting
+1762968893: Config loaded from /mosquitto/config/mosquitto.conf.
+1762968893: Opening ipv4 listen socket on port 1883.
+1762968893: Opening ipv6 listen socket on port 1883.
+1762968893: mosquitto version 2.0.18 running
+1762968896: New connection from 172.20.0.8:54056 on port 1883.
+1762968896: New client connected from 172.20.0.8:54056 as iotajson_32b46d97 (p2, c1, k60).
+1762970694: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1762971156: Client iotajson_32b46d97 closed its connection.
+1762971158: mosquitto version 2.0.18 terminating
+1762971158: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1762971432: mosquitto version 2.0.18 starting
+1762971432: Config loaded from /mosquitto/config/mosquitto.conf.
+1762971432: Opening ipv4 listen socket on port 1883.
+1762971432: Opening ipv6 listen socket on port 1883.
+1762971432: mosquitto version 2.0.18 running
+1762971433: New connection from 172.20.0.9:50718 on port 1883.
+1762971433: New client connected from 172.20.0.9:50718 as iotajson_09556d3f (p2, c1, k60).
+1762971455: Client iotajson_09556d3f closed its connection.
+1762971456: mosquitto version 2.0.18 terminating
+1762971456: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1762971473: mosquitto version 2.0.18 starting
+1762971473: Config loaded from /mosquitto/config/mosquitto.conf.
+1762971473: Opening ipv4 listen socket on port 1883.
+1762971473: Opening ipv6 listen socket on port 1883.
+1762971473: mosquitto version 2.0.18 running
+1762971474: New connection from 172.20.0.7:48710 on port 1883.
+1762971474: New client connected from 172.20.0.7:48710 as iotajson_fa4209d9 (p2, c1, k60).
+1762972002: New connection from 192.168.0.7:56282 on port 1883.
+1762972002: New client connected from 192.168.0.7:56282 as esp32-sensor001 (p2, c1, k15).
