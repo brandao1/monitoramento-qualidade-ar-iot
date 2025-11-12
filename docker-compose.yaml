@@ -176,6 +176,20 @@ services:
     networks:
       - fiware-net
 
+  analysis:
+    build: ./analysis
+    hostname: analysis
+    container_name: analysis
+    ports:
+      - "5000:5000"
+    networks:
+      - fiware-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
 networks:
   fiware-net:
     driver: bridge
