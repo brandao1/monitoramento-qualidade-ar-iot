@@ -190,6 +190,15 @@ services:
       timeout: 5s
       retries: 5
 
+  monitor-app:
+    build: ./monitor-app
+    hostname: monitor-app
+    container_name: monitor-app
+    ports:
+      - "8081:80"
+    networks:
+      - fiware-net
+
 networks:
   fiware-net:
     driver: bridge
