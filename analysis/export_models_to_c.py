@@ -87,5 +87,5 @@ with open(constants_h_path, "w") as f:
         f.write(f"// {i} = {class_name}\n")
     
 print(f"Arquivo '{constants_h_path}' gerado com sucesso!")
-print("\n✅ EXPORTAÇÃO PARA C CONCLUÍDA.")
+print("\n EXPORTAÇÃO PARA C CONCLUÍDA.")
 print("Próximo passo: rodar 'package_models.py' para juntar tudo.")

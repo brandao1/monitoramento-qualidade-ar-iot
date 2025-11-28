@@ -26,3 +26,187 @@
 1760402281: Client iotajson_e73d0f82 closed its connection.
 1760402282: mosquitto version 2.0.18 terminating
 1760402282: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764208695: mosquitto version 2.0.18 starting
+1764208695: Config loaded from /mosquitto/config/mosquitto.conf.
+1764208695: Opening ipv4 listen socket on port 1883.
+1764208695: Opening ipv6 listen socket on port 1883.
+1764208695: mosquitto version 2.0.18 running
+1764208699: New connection from 192.168.0.5:52370 on port 1883.
+1764208699: New client connected from 192.168.0.5:52370 as esp32-sensor001 (p2, c1, k15).
+1764208704: New connection from 172.20.0.10:60934 on port 1883.
+1764208704: New client connected from 172.20.0.10:60934 as iotajson_64672520 (p2, c1, k60).
+1764209243: Client esp32-sensor001 has exceeded timeout, disconnecting.
+1764209429: New connection from 192.168.0.5:55202 on port 1883.
+1764209429: New client connected from 192.168.0.5:55202 as esp32-sensor001 (p2, c1, k15).
+1764209588: New connection from 192.168.0.5:61367 on port 1883.
+1764209588: Client esp32-sensor001 already connected, closing old connection.
+1764209588: New client connected from 192.168.0.5:61367 as esp32-sensor001 (p2, c1, k15).
+1764210035: Client esp32-sensor001 has exceeded timeout, disconnecting.
+1764210039: New connection from 192.168.0.5:49853 on port 1883.
+1764210039: New client connected from 192.168.0.5:49853 as esp32-sensor001 (p2, c1, k15).
+1764210498: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764212299: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764214100: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764215901: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764217702: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764281186: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764281186: Client iotajson_64672520 has exceeded timeout, disconnecting.
+1764281186: Client esp32-sensor001 has exceeded timeout, disconnecting.
+1764281188: New connection from 172.20.0.10:42532 on port 1883.
+1764281188: New client connected from 172.20.0.10:42532 as iotajson_64672520 (p2, c1, k60).
+1764281192: New connection from 172.20.0.10:42280 on port 1883.
+1764281192: New client connected from 172.20.0.10:42280 as iotajson_e7381974 (p2, c1, k60).
+1764281198: New connection from 192.168.0.5:65474 on port 1883.
+1764281198: New client connected from 192.168.0.5:65474 as esp32-sensor001 (p2, c1, k15).
+1764282987: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764284198: Client esp32-sensor001 has exceeded timeout, disconnecting.
+1764284788: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764286589: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764287629: New connection from 192.168.0.5:51334 on port 1883.
+1764287629: New client connected from 192.168.0.5:51334 as esp32-sensor001 (p2, c1, k15).
+1764287953: New connection from 192.168.0.5:60976 on port 1883.
+1764287953: Client esp32-sensor001 already connected, closing old connection.
+1764287953: New client connected from 192.168.0.5:60976 as esp32-sensor001 (p2, c1, k15).
+1764288390: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764288609: New connection from 192.168.0.5:64202 on port 1883.
+1764288609: Client esp32-sensor001 already connected, closing old connection.
+1764288609: New client connected from 192.168.0.5:64202 as esp32-sensor001 (p2, c1, k15).
+1764288776: New connection from 192.168.0.5:64975 on port 1883.
+1764288776: Client esp32-sensor001 already connected, closing old connection.
+1764288776: New client connected from 192.168.0.5:64975 as esp32-sensor001 (p2, c1, k15).
+1764288828: New connection from 192.168.0.5:51691 on port 1883.
+1764288828: Client esp32-sensor001 already connected, closing old connection.
+1764288828: New client connected from 192.168.0.5:51691 as esp32-sensor001 (p2, c1, k15).
+1764289250: New connection from 192.168.0.5:53797 on port 1883.
+1764289250: Client esp32-sensor001 already connected, closing old connection.
+1764289250: New client connected from 192.168.0.5:53797 as esp32-sensor001 (p2, c1, k15).
+1764289904: Client esp32-sensor001 has exceeded timeout, disconnecting.
+1764290191: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764290411: New connection from 192.168.0.5:63073 on port 1883.
+1764290411: New client connected from 192.168.0.5:63073 as esp32-sensor001 (p2, c1, k15).
+1764290458: New connection from 192.168.0.5:56386 on port 1883.
+1764290458: Client esp32-sensor001 already connected, closing old connection.
+1764290458: New client connected from 192.168.0.5:56386 as esp32-sensor001 (p2, c1, k15).
+1764290888: Client esp32-sensor001 has exceeded timeout, disconnecting.
+1764290898: New connection from 192.168.0.5:54894 on port 1883.
+1764290898: New client connected from 192.168.0.5:54894 as esp32-sensor001 (p2, c1, k15).
+1764290984: Client esp32-sensor001 has exceeded timeout, disconnecting.
+1764290990: New connection from 192.168.0.5:61040 on port 1883.
+1764290990: New client connected from 192.168.0.5:61040 as esp32-sensor001 (p2, c1, k15).
+1764291512: Client esp32-sensor001 has exceeded timeout, disconnecting.
+1764291522: New connection from 192.168.0.5:50767 on port 1883.
+1764291522: New client connected from 192.168.0.5:50767 as esp32-sensor001 (p2, c1, k15).
+1764291650: Client esp32-sensor001 has exceeded timeout, disconnecting.
+1764291662: New connection from 192.168.0.5:62684 on port 1883.
+1764291662: New client connected from 192.168.0.5:62684 as esp32-sensor001 (p2, c1, k15).
+1764291806: Client esp32-sensor001 has exceeded timeout, disconnecting.
+1764291811: New connection from 192.168.0.5:56224 on port 1883.
+1764291811: New client connected from 192.168.0.5:56224 as esp32-sensor001 (p2, c1, k15).
+1764291992: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764292016: Client esp32-sensor001 has exceeded timeout, disconnecting.
+1764292020: New connection from 192.168.0.5:62847 on port 1883.
+1764292020: New client connected from 192.168.0.5:62847 as esp32-sensor001 (p2, c1, k15).
+1764292286: Client iotajson_e7381974 closed its connection.
+1764292286: mosquitto version 2.0.18 terminating
+1764292286: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764296287: mosquitto version 2.0.18 starting
+1764296287: Config loaded from /mosquitto/config/mosquitto.conf.
+1764296287: Opening ipv4 listen socket on port 1883.
+1764296287: Opening ipv6 listen socket on port 1883.
+1764296287: mosquitto version 2.0.18 running
+1764296292: New connection from 192.168.0.5:64433 on port 1883.
+1764296292: New client connected from 192.168.0.5:64433 as esp32-sensor001 (p2, c1, k15).
+1764296292: New connection from 172.20.0.11:60706 on port 1883.
+1764296292: New client connected from 172.20.0.11:60706 as iotajson_5f2daecf (p2, c1, k60).
+1764296778: Client esp32-sensor001 has exceeded timeout, disconnecting.
+1764296800: New connection from 192.168.0.5:57824 on port 1883.
+1764296800: New client connected from 192.168.0.5:57824 as esp32-sensor001 (p2, c1, k15).
+1764297274: New connection from 192.168.0.5:58860 on port 1883.
+1764297274: Client esp32-sensor001 already connected, closing old connection.
+1764297274: New client connected from 192.168.0.5:58860 as esp32-sensor001 (p2, c1, k15).
+1764297536: New connection from 192.168.0.5:63467 on port 1883.
+1764297536: Client esp32-sensor001 already connected, closing old connection.
+1764297536: New client connected from 192.168.0.5:63467 as esp32-sensor001 (p2, c1, k15).
+1764297798: Client esp32-sensor001 has exceeded timeout, disconnecting.
+1764297799: New connection from 192.168.0.5:60446 on port 1883.
+1764297799: New client connected from 192.168.0.5:60446 as esp32-sensor001 (p2, c1, k15).
+1764297924: Client esp32-sensor001 has exceeded timeout, disconnecting.
+1764297942: New connection from 192.168.0.5:63131 on port 1883.
+1764297942: New client connected from 192.168.0.5:63131 as esp32-sensor001 (p2, c1, k15).
+1764298074: Client esp32-sensor001 has exceeded timeout, disconnecting.
+1764298087: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764298237: New connection from 192.168.0.5:57041 on port 1883.
+1764298237: New client connected from 192.168.0.5:57041 as esp32-sensor001 (p2, c1, k15).
+1764298434: New connection from 192.168.0.5:62218 on port 1883.
+1764298434: Client esp32-sensor001 already connected, closing old connection.
+1764298434: New client connected from 192.168.0.5:62218 as esp32-sensor001 (p2, c1, k15).
+1764298536: Client esp32-sensor001 has exceeded timeout, disconnecting.
+1764299364: New connection from 192.168.0.5:52657 on port 1883.
+1764299364: New client connected from 192.168.0.5:52657 as esp32-sensor001 (p2, c1, k15).
+1764299508: Client esp32-sensor001 has exceeded timeout, disconnecting.
+1764299513: New connection from 192.168.0.5:62282 on port 1883.
+1764299513: New client connected from 192.168.0.5:62282 as esp32-sensor001 (p2, c1, k15).
+1764299700: Client esp32-sensor001 has exceeded timeout, disconnecting.
+1764299823: New connection from 192.168.0.5:53018 on port 1883.
+1764299823: New client connected from 192.168.0.5:53018 as esp32-sensor001 (p2, c1, k15).
+1764299888: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764301689: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764303490: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764305291: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764307092: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764332595: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764332595: Client iotajson_5f2daecf has exceeded timeout, disconnecting.
+1764332595: Client esp32-sensor001 has exceeded timeout, disconnecting.
+1764332597: New connection from 172.20.0.11:51650 on port 1883.
+1764332597: New client connected from 172.20.0.11:51650 as iotajson_5f2daecf (p2, c1, k60).
+1764332601: New connection from 172.20.0.11:51662 on port 1883.
+1764332601: New client connected from 172.20.0.11:51662 as iotajson_d2ad9a66 (p2, c1, k60).
+1764332617: New connection from 192.168.0.5:50314 on port 1883.
+1764332617: New client connected from 192.168.0.5:50314 as esp32-sensor001 (p2, c1, k15).
+1764333141: Client esp32-sensor001 has exceeded timeout, disconnecting.
+1764333146: New connection from 192.168.0.5:51382 on port 1883.
+1764333146: New client connected from 192.168.0.5:51382 as esp32-sensor001 (p2, c1, k15).
+1764333657: Client esp32-sensor001 has exceeded timeout, disconnecting.
+1764333661: New connection from 192.168.0.5:59904 on port 1883.
+1764333661: New client connected from 192.168.0.5:59904 as esp32-sensor001 (p2, c1, k15).
+1764334047: Client esp32-sensor001 has exceeded timeout, disconnecting.
+1764334396: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764334563: New connection from 192.168.0.5:56112 on port 1883.
+1764334563: New client connected from 192.168.0.5:56112 as esp32-sensor001 (p2, c1, k15).
+1764334695: Client esp32-sensor001 has exceeded timeout, disconnecting.
+1764334974: New connection from 192.168.0.5:49272 on port 1883.
+1764334974: New client connected from 192.168.0.5:49272 as esp32-sensor001 (p2, c1, k15).
+1764335121: New connection from 192.168.0.5:63345 on port 1883.
+1764335121: Client esp32-sensor001 already connected, closing old connection.
+1764335121: New client connected from 192.168.0.5:63345 as esp32-sensor001 (p2, c1, k15).
+1764335135: Client iotajson_d2ad9a66 closed its connection.
+1764335135: Client iotajson_5f2daecf closed its connection.
+1764335136: mosquitto version 2.0.18 terminating
+1764335136: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764335142: mosquitto version 2.0.18 starting
+1764335142: Config loaded from /mosquitto/config/mosquitto.conf.
+1764335142: Opening ipv4 listen socket on port 1883.
+1764335142: Opening ipv6 listen socket on port 1883.
+1764335142: mosquitto version 2.0.18 running
+1764335143: New connection from 172.20.0.10:53734 on port 1883.
+1764335143: New client connected from 172.20.0.10:53734 as iotajson_d6ae40b7 (p2, c1, k60).
+1764335146: New connection from 192.168.0.5:63348 on port 1883.
+1764335146: New client connected from 192.168.0.5:63348 as esp32-sensor001 (p2, c1, k15).
+1764335171: New connection from 192.168.0.5:65352 on port 1883.
+1764335171: Client esp32-sensor001 already connected, closing old connection.
+1764335171: New client connected from 192.168.0.5:65352 as esp32-sensor001 (p2, c1, k15).
+1764336942: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764337559: Client esp32-sensor001 has exceeded timeout, disconnecting.
+1764338743: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764340544: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764342345: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764344146: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764345947: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764347748: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764349549: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764351350: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764352169: New connection from 192.168.0.4:64218 on port 1883.
+1764352169: New client connected from 192.168.0.4:64218 as esp32-sensor001 (p2, c1, k15).
+1764353151: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764354952: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1764356753: Saving in-memory database to /mosquitto/data//mosquitto.db.

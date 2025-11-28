@@ -1,10 +1,9 @@
-
 /*********************************************************************
   Código Combinado ESP32 - Multi-Sensor (DHT, MQ-135, MQ-7, MQ-131, PMS7003, MH-Z19E)
   - Publica dados via MQTT.
   - Expõe dados via WebServer.
   - SALVA E CARREGA CALIBRAÇÃO R0 DA NVS (Preferences)
-**********************************************************************/
+**********************************************************************/ 
 
 // --- Bibliotecas ---
 #include <WiFi.h>
@@ -98,6 +97,7 @@ long lastMsg = 0;
 long interval = 10000;  // Intervalo de 10 segundos
 unsigned long heatingStartTime = 0;
 bool isHighVoltageHeating = true;  // Estado do aquecedor do MQ-7
+bool lastMqttPublishSuccess = false;
 
 // =====================================================================
 // Funções Auxiliares
@@ -145,7 +145,6 @@ void calibrateMQ135() {
   for (int i = 1; i <= 10; i++) {
     MQ135.update();
     calcR0 += MQ135.calibrate(MQ135_RATIO_CLEAN_AIR);
-    Serial.print(".");
     Serial.print("\n");
     Serial.print(MQ135.calibrate(MQ135_RATIO_CLEAN_AIR));
     Serial.print(".");
@@ -187,7 +186,7 @@ void setupSensorMQ135() {
     Serial.println("R0 do MQ-135 não encontrado ou inválido. Iniciando nova calibração...");
     calibrateMQ135();  // Esta função agora também salva o novo valor
   } else {
-    Serial.print("Carregando R0 salvo para MQ-135: ");
+    Serial.println("Carregando R0 salvo para MQ-135: ");
     Serial.println(storedR0);
     MQ135.setR0(storedR0);  // Aplica o valor salvo
     flashLed(2);            // Pisca para indicar que carregou com sucesso
@@ -243,7 +242,7 @@ void setupSensorMQ7() {
     Serial.println("R0 do MQ-7 não encontrado ou inválido. Iniciando nova calibração...");
     calibrateSensorMQ7();
   } else {
-    Serial.print("Carregando R0 salvo para MQ-7: ");
+    Serial.println("Carregando R0 salvo para MQ-7: ");
     Serial.println(storedR0);
     MQ7.setR0(storedR0);
     flashLed(2);
@@ -300,7 +299,7 @@ void setupSensorMQ131() {
     Serial.println("R0 do MQ-131 não encontrado ou inválido. Iniciando nova calibração...");
     // iniciarCalibracaoMQ131();
   } else {
-    Serial.print("Carregando R0 salvo para MQ-131: ");
+    Serial.println("Carregando R0 salvo para MQ-131: ");
     Serial.println(storedR0);
     MQ131.setR0(storedR0);
     flashLed(2);
@@ -312,51 +311,34 @@ void setupSensorMQ131() {
 // =====================================================================
 
 void handleRoot() {
-    char msg[3000]; // Aumentei o buffer de 2500 para 3000
-    snprintf(msg, 3000,
-             "<html>\
-  <head>\
-    <meta http-equiv='refresh' content='5'/>\
-    <meta name='viewport' content='width=device-width, initial-scale=1'>\
-    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.2/css/all.css'>\
-    <title>ESP32 Sensor Hub</title>\
-    <style>\
-    html { font-family: Arial, sans-serif; display: inline-block; margin: 0px auto; text-align: center;}\
-    h2 { font-size: 2.0rem; color: #2c3e50; }\
-    p { font-size: 1.8rem; margin: 15px; }\
-    .units { font-size: 1.0rem; }\
-    .sensor-labels { font-size: 1.2rem; vertical-align:middle; padding-bottom: 15px; color: #34495e;}\
-    .sensor-container { border: 2px solid #ecf0f1; border-radius: 10px; padding: 10px; margin-bottom: 20px; background-color: #f9f9f9;}\
-    </style>\
-  </head>\
-  <body>\
-      <h2>ESP32 Sensor Hub</h2>\
-      <div class='sensor-container'>\
-        <p><i class='fas fa-thermometer-half' style='color:#e74c3c;'></i> <span class='sensor-labels'>Temperatura</span> <span>%.2f</span> <sup class='units'>&deg;C</sup></p>\
-        <p><i class='fas fa-tint' style='color:#3498db;'></i> <span class='sensor-labels'>Umidade</span> <span>%.2f</span> <sup class='units'>&percnt;</sup></p>\
-      </div>\
-      <div class='sensor-container'>\
-        <p><i class='fas fa-smog' style='color:#7f8c8d;'></i> <span class='sensor-labels'>CO2</span> <span>%.2f</span> <sup class='units'>ppm</sup></p>\
-        <p><i class='fas fa-burn' style='color:#f39c12;'></i> <span class='sensor-labels'>CO</span> <span>%.2f</span> <sup class='units'>ppm</sup></p>\
-        <p><i class='fas fa-flask' style='color:#8e44ad;'></i> <span class='sensor-labels'>Tolueno</span> <span>%.2f</span> <sup class='units'>ppm</sup></p>\
-        <p><i class='fas fa-vial' style='color:#27ae60;'></i> <span class='sensor-labels'>NH4</span> <span>%.2f</span> <sup class='units'>ppm</sup></p>\
-        <p><i class='fas fa-spray-can' style='color:#c0392b;'></i> <span class='sensor-labels'>Acetona</span> <span>%.2f</span> <sup class='units'>ppm</sup></p>\
-        <p><i class='fas fa-cloud' style='color:#c0392b;'></i> <span class='sensor-labels'>O3</span> <span>%.2f</span> <sup class='units'>ppm</sup></p>\
-        <p><i class='fas fa-cloud' style='color:#c0392b;'></i> <span class='sensor-labels'>NO2</span> <span>%.2f</span> <sup class='units'>ppm</sup></p>\
-        <p><i class='fas fa-cloud' style='color:#c0392b;'></i> <span class='sensor-labels'>CL2</span> <span>%.2f</span> <sup class='units'>ppm</sup></p>\
-        <p><i class='fas fa-vial' style='color:#c0392b;'></i> <span class='sensor-labels'>Alcohol</span> <span>%.2f</span> <sup class='units'>ppm</sup></p>\
-      </div>\
-      <!-- ADIÇÃO: Container para os dados de ML -->\
-      <div class='sensor-container'>\
-        <p><i class='fas fa-shield-alt' style='color:#27ae60;'></i> <span class='sensor-labels'>Qualidade do Ar</span> <span style='font-weight:bold;'>%s</span></p>\
-        <p><i class='fas fa-exclamation-triangle' style='color:#e74c3c;'></i> <span class='sensor-labels'>Anomalia Detectada</span> <span>%s</span></p>\
-      </div>\
-  </body>\
-</html>",
+    char msg[4000]; // Aumentei o buffer
+    char mqttStatus[50];
+    if (mqttClient.connected()) {
+      strcpy(mqttStatus, "<span style=\"color:green;\">Conectado</span>");
+    } else {
+      strcpy(mqttStatus, "<span style=\"color:red; font-weight:bold;\">Desconectado</span>");
+    }
+
+    char publishStatus[50];
+    if (lastMqttPublishSuccess) {
+      strcpy(publishStatus, "<span style=\"color:green;\">Sucesso</span>");
+    } else {
+      strcpy(publishStatus, "<span style=\"color:red; font-weight:bold;\">Falha</span>");
+    }
+
+    snprintf(msg, 4000,
+             "<html>\n  <head>\n    <meta http-equiv='refresh' content='5'/>\n    <meta name='viewport' content='width=device-width, initial-scale=1'>\n    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.2/css/all.css'>\n    <title>ESP32 Sensor Hub</title>\n    <style>\n    html { font-family: Arial, sans-serif; display: inline-block; margin: 0px auto; text-align: center;}
+    h2 { font-size: 2.0rem; color: #2c3e50; }
+    h3 { font-size: 1.5rem; color: #34495e; }
+    p { font-size: 1.8rem; margin: 15px; }
+    .units { font-size: 1.0rem; }
+    .sensor-labels { font-size: 1.2rem; vertical-align:middle; padding-bottom: 15px; color: #34495e;}
+    .sensor-container { border: 2px solid #ecf0f1; border-radius: 10px; padding: 10px; margin-bottom: 20px; background-color: #f9f9f9;}
+    </style>\n  </head>\n  <body>\n      <h2>ESP32 Sensor Hub</h2>\n      <div class='sensor-container'>\n        <h3>Status da Conexão</h3>\n        <p><i class='fas fa-wifi' style='color:#3498db;'></i> <span class='sensor-labels'>IP</span> <span>%s</span></p>\n        <p><i class='fas fa-signal' style='color:#2ecc71;'></i> <span class='sensor-labels'>RSSI</span> <span>%d</span> <sup class='units'>dBm</sup></p>\n        <p><i class='fas fa-server' style='color:#f39c12;'></i> <span class='sensor-labels'>MQTT</span> <span>%s</span></p>\n        <p><i class='fas fa-paper-plane' style='color:#27ae60;'></i> <span class='sensor-labels'>Último Envio</span> <span>%s</span></p>\n      </div>\n      <div class='sensor-container'>\n        <h3>Sensores Climáticos</h3>\n        <p><i class='fas fa-thermometer-half' style='color:#e74c3c;'></i> <span class='sensor-labels'>Temperatura</span> <span>%.2f</span> <sup class='units'>&deg;C</sup></p>\n        <p><i class='fas fa-tint' style='color:#3498db;'></i> <span class='sensor-labels'>Umidade</span> <span>%.2f</span> <sup class='units'>&percnt;</sup></p>\n      </div>\n      <div class='sensor-container'>\n        <h3>Qualidade do Ar</h3>\n        <p><i class='fas fa-smog' style='color:#7f8c8d;'></i> <span class='sensor-labels'>CO2</span> <span>%.2f</span> <sup class='units'>ppm</sup></p>\n        <p><i class='fas fa-burn' style='color:#f39c12;'></i> <span class='sensor-labels'>CO</span> <span>%.2f</span> <sup class='units'>ppm</sup></p>\n        <p><i class='fas fa-flask' style='color:#8e44ad;'></i> <span class='sensor-labels'>Tolueno</span> <span>%.2f</span> <sup class='units'>ppm</sup></p>\n        <p><i class='fas fa-vial' style='color:#27ae60;'></i> <span class='sensor-labels'>NH4</span> <span>%.2f</span> <sup class='units'>ppm</sup></p>\n        <p><i class='fas fa-spray-can' style='color:#c0392b;'></i> <span class='sensor-labels'>Acetona</span> <span>%.2f</span> <sup class='units'>ppm</sup></p>\n        <p><i class='fas fa-cloud' style='color:#c0392b;'></i> <span class='sensor-labels'>O3</span> <span>%.2f</span> <sup class='units'>ppm</sup></p>\n        <p><i class='fas fa-cloud' style='color:#c0392b;'></i> <span class='sensor-labels'>NO2</span> <span>%.2f</span> <sup class='units'>ppm</sup></p>\n        <p><i class='fas fa-cloud' style='color:#c0392b;'></i> <span class='sensor-labels'>CL2</span> <span>%.2f</span> <sup class='units'>ppm</sup></p>\n        <p><i class='fas fa-vial' style='color:#c0392b;'></i> <span class='sensor-labels'>Alcohol</span> <span>%.2f</span> <sup class='units'>ppm</sup></p>\n      </div>\n      <!-- ADIÇÃO: Container para os dados de ML -->\n      <div class='sensor-container'>\n        <h3>Análise Inteligente</h3>\n        <p><i class='fas fa-shield-alt' style='color:#27ae60;'></i> <span class='sensor-labels'>Qualidade do Ar</span> <span style='font-weight:bold;'>%s</span></p>\n        <p><i class='fas fa-exclamation-triangle' style='color:#e74c3c;'></i> <span class='sensor-labels'>Anomalia Detectada</span> <span>%s</span></p>\n      </div>\n  </body>\n</html>",
+             WiFi.localIP().toString().c_str(), WiFi.RSSI(), mqttStatus, publishStatus,
              lastTemp, lastHum, lastCO2, lastCO, lastToluene, lastNH4, lastAcetone, lastO3, lastNO2, lastCL2, lastAlcohol,
-             // ADIÇÃO: Novas variáveis para ML
              lastAirQuality,
-             (lastAnomaly ? "<span style=\\\"color:red; font-weight:bold;\\\">SIM</span>" : "<span style=\\\"color:green;\\\">NÃO</span>")
+             (lastAnomaly ? "<span style=\"color:red; font-weight:bold;\">SIM</span>" : "<span style=\"color:green;\">NÃO</span>")
     );
     server.send(200, "text/html", msg);
 }
@@ -616,9 +598,11 @@ void loop(void) {
     if (mqttClient.publish(mqtt_topic, payload)) {
       Serial.println("Publicado com sucesso!");
       flashLed(1);
+      lastMqttPublishSuccess = true;
     } else {
       Serial.println("Falha ao publicar!");
       flashLed(2);
+      lastMqttPublishSuccess = false;
     }
   }
 }
