@@ -18,19 +18,19 @@ const airQualityService = computed(() =>
 )
 
 const metrics = [
-  { key: 't', label: 'Temperatura (°C)', icon: '🌡️' },
-  { key: 'h', label: 'Umidade (%)', icon: '💧' },
-  { key: 'co2', label: 'CO₂ (ppm)', icon: '🌫️' },
-  { key: 'co', label: 'CO (ppm)', icon: '💨' },
-  { key: 'tol', label: 'Tolueno (ppm)', icon: '🧪' },
-  { key: 'nh4', label: 'Amônia (ppm)', icon: '⚗️' },
-  { key: 'ace', label: 'Acetona (ppm)', icon: '🔬' },
-  { key: 'o3', label: 'Ozônio (ppm)', icon: '☁️' },
-  { key: 'no2', label: 'NO₂ (ppm)', icon: '🏭' },
-  { key: 'cl2', label: 'Cl₂ (ppm)', icon: '⚠️' },
-  { key: 'pm1_0', label: 'PM 1.0 (µg/m³)', icon: '🌁' },
-  { key: 'pm2_5', label: 'PM 2.5 (µg/m³)', icon: '🌁' },
-  { key: 'pm10_0', label: 'PM 10.0 (µg/m³)', icon: '🌁' },
+  { key: 't', label: 'Temperatura (°C)', icon: 'fa-solid fa-temperature-half' },
+  { key: 'h', label: 'Umidade (%)', icon: 'fa-solid fa-droplet' },
+  { key: 'co2', label: 'CO₂ (ppm)', icon: 'fa-solid fa-smog' },
+  { key: 'co', label: 'CO (ppm)', icon: 'fa-solid fa-wind' },
+  { key: 'tol', label: 'Tolueno (ppm)', icon: 'fa-solid fa-flask' },
+  { key: 'nh4', label: 'Amônia (ppm)', icon: 'fa-solid fa-vial' },
+  { key: 'ace', label: 'Acetona (ppm)', icon: 'fa-solid fa-microscope' },
+  { key: 'o3', label: 'Ozônio (ppm)', icon: 'fa-solid fa-cloud' },
+  { key: 'no2', label: 'NO₂ (ppm)', icon: 'fa-solid fa-industry' },
+  { key: 'cl2', label: 'Cl₂ (ppm)', icon: 'fa-solid fa-triangle-exclamation' },
+  { key: 'pm1_0', label: 'PM 1.0 (µg/m³)', icon: 'fa-solid fa-water' },
+  { key: 'pm2_5', label: 'PM 2.5 (µg/m³)', icon: 'fa-solid fa-water' },
+  { key: 'pm10_0', label: 'PM 10.0 (µg/m³)', icon: 'fa-solid fa-water' },
 ]
 
 const chartData = computed(() => {
@@ -152,7 +152,8 @@ onMounted(() => {
           <input id="endDate" v-model="endDate" type="datetime-local" />
         </div>
         <button class="fetch-btn" @click="fetchData" :disabled="isLoading">
-          {{ isLoading ? '⏳ Carregando...' : '📊 Buscar Dados' }}
+          <i :class="isLoading ? 'fa-solid fa-hourglass-half' : 'fa-solid fa-chart-bar'"></i>
+          {{ isLoading ? ' Carregando...' : ' Buscar Dados' }}
         </button>
       </div>
 
@@ -160,13 +161,13 @@ onMounted(() => {
         <label for="metric">Métrica:</label>
         <select id="metric" v-model="selectedMetric">
           <option v-for="metric in metrics" :key="metric.key" :value="metric.key">
-            {{ metric.icon }} {{ metric.label }}
+            {{ metric.label }}
           </option>
         </select>
       </div>
     </div>
 
-    <div v-if="error" class="error-message">⚠️ {{ error }}</div>
+    <div v-if="error" class="error-message"><i class="fa-solid fa-triangle-exclamation"></i> {{ error }}</div>
 
     <div v-if="isLoading" class="loading">
       <div class="loading-spinner"></div>
@@ -195,7 +196,7 @@ onMounted(() => {
 
       <div class="chart-container">
         <h3>
-          {{ metrics.find((m) => m.key === selectedMetric)?.icon }}
+          <i :class="metrics.find((m) => m.key === selectedMetric)?.icon"></i>
           {{ metrics.find((m) => m.key === selectedMetric)?.label }}
         </h3>
         <div class="chart">
@@ -222,7 +223,7 @@ onMounted(() => {
       </div>
 
       <div class="data-table">
-        <h3>📋 Dados Detalhados</h3>
+        <h3><i class="fa-solid fa-clipboard-list"></i> Dados Detalhados</h3>
         <div class="table-wrapper">
           <table>
             <thead>
@@ -400,23 +401,27 @@ onMounted(() => {
   background: rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   padding: 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .chart-bars {
   display: flex;
   align-items: flex-end;
-  justify-content: space-around;
+  justify-content: flex-start;
   height: 100%;
   gap: 4px;
+  min-width: fit-content;
 }
 
 .chart-bar-wrapper {
-  flex: 1;
+  flex: 0 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   height: 100%;
-  min-width: 20px;
+  min-width: 30px;
+  width: 40px;
 }
 
 .chart-bar {
@@ -496,8 +501,17 @@ tbody tr:hover {
     width: 100%;
   }
 
+  .chart {
+    height: 300px;
+  }
+
+  .chart-bar-wrapper {
+    min-width: 25px;
+    width: 30px;
+  }
+
   .chart-label {
-    display: none;
+    font-size: 0.6rem;
   }
 
   .statistics-cards {

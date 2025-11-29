@@ -17,11 +17,11 @@ defineEmits<{
   <div class="sensor-card" :class="{ collapsed: !visible }">
     <div class="card-header">
       <div class="card-title">
-        <span class="icon">{{ icon }}</span>
+        <span class="icon"><i :class="icon"></i></span>
         <h3>{{ title }}</h3>
       </div>
       <button class="toggle-btn" @click="$emit('toggle')" :title="visible ? 'Ocultar' : 'Mostrar'">
-        {{ visible ? '👁️' : '👁️‍🗨️' }}
+        <i :class="visible ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'"></i>
       </button>
     </div>
     <div v-if="visible" class="card-content">
@@ -74,6 +74,10 @@ defineEmits<{
 
 .icon {
   font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
 }
 
 .toggle-btn {

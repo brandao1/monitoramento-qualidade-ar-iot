@@ -29,7 +29,7 @@ const sensorCards = computed<SensorCardType[]>(() => {
       title: 'Temperatura',
       value: sensorData.value.t.toFixed(1),
       unit: '°C',
-      icon: '🌡️',
+      icon: 'fa-solid fa-temperature-half',
       color: getTemperatureColor(sensorData.value.t),
     },
     {
@@ -37,7 +37,7 @@ const sensorCards = computed<SensorCardType[]>(() => {
       title: 'Umidade',
       value: sensorData.value.h.toFixed(1),
       unit: '%',
-      icon: '💧',
+      icon: 'fa-solid fa-droplet',
       color: '#3498db',
     },
     {
@@ -45,7 +45,7 @@ const sensorCards = computed<SensorCardType[]>(() => {
       title: 'CO₂',
       value: sensorData.value.co2.toFixed(0),
       unit: 'ppm',
-      icon: '🌫️',
+      icon: 'fa-solid fa-smog',
       color: getCO2Color(sensorData.value.co2),
     },
     {
@@ -53,7 +53,7 @@ const sensorCards = computed<SensorCardType[]>(() => {
       title: 'CO',
       value: sensorData.value.co.toFixed(2),
       unit: 'ppm',
-      icon: '💨',
+      icon: 'fa-solid fa-wind',
       color: getCOColor(sensorData.value.co),
     },
     {
@@ -61,7 +61,7 @@ const sensorCards = computed<SensorCardType[]>(() => {
       title: 'Tolueno',
       value: sensorData.value.tol.toFixed(2),
       unit: 'ppm',
-      icon: '🧪',
+      icon: 'fa-solid fa-flask',
       color: '#9b59b6',
     },
     {
@@ -69,7 +69,7 @@ const sensorCards = computed<SensorCardType[]>(() => {
       title: 'Amônia (NH₄)',
       value: sensorData.value.nh4.toFixed(2),
       unit: 'ppm',
-      icon: '⚗️',
+      icon: 'fa-solid fa-vial',
       color: '#e67e22',
     },
     {
@@ -77,7 +77,7 @@ const sensorCards = computed<SensorCardType[]>(() => {
       title: 'Acetona',
       value: sensorData.value.ace.toFixed(2),
       unit: 'ppm',
-      icon: '🔬',
+      icon: 'fa-solid fa-microscope',
       color: '#1abc9c',
     },
     {
@@ -85,7 +85,7 @@ const sensorCards = computed<SensorCardType[]>(() => {
       title: 'Ozônio (O₃)',
       value: sensorData.value.o3.toFixed(3),
       unit: 'ppm',
-      icon: '☁️',
+      icon: 'fa-solid fa-cloud',
       color: '#3498db',
     },
     {
@@ -93,7 +93,7 @@ const sensorCards = computed<SensorCardType[]>(() => {
       title: 'NO₂',
       value: sensorData.value.no2.toFixed(3),
       unit: 'ppm',
-      icon: '🏭',
+      icon: 'fa-solid fa-industry',
       color: '#e74c3c',
     },
     {
@@ -101,7 +101,7 @@ const sensorCards = computed<SensorCardType[]>(() => {
       title: 'Cl₂',
       value: sensorData.value.cl2.toFixed(3),
       unit: 'ppm',
-      icon: '⚠️',
+      icon: 'fa-solid fa-triangle-exclamation',
       color: '#f1c40f',
     },
     {
@@ -109,7 +109,7 @@ const sensorCards = computed<SensorCardType[]>(() => {
       title: 'PM 1.0',
       value: sensorData.value.pm1_0.toFixed(0),
       unit: 'µg/m³',
-      icon: '🌁',
+      icon: 'fa-solid fa-water',
       color: getPMColor(sensorData.value.pm1_0),
     },
     {
@@ -117,7 +117,7 @@ const sensorCards = computed<SensorCardType[]>(() => {
       title: 'PM 2.5',
       value: sensorData.value.pm2_5.toFixed(0),
       unit: 'µg/m³',
-      icon: '🌁',
+      icon: 'fa-solid fa-water',
       color: getPM25Color(sensorData.value.pm2_5),
     },
     {
@@ -125,7 +125,7 @@ const sensorCards = computed<SensorCardType[]>(() => {
       title: 'PM 10.0',
       value: sensorData.value.pm10_0.toFixed(0),
       unit: 'µg/m³',
-      icon: '🌁',
+      icon: 'fa-solid fa-water',
       color: getPM10Color(sensorData.value.pm10_0),
     },
   ]
@@ -255,13 +255,14 @@ onUnmounted(() => {
         </select>
       </div>
       <button class="refresh-btn" @click="fetchData" :disabled="isLoading">
-        {{ isLoading ? '⏳ Carregando...' : '🔄 Atualizar Agora' }}
+        <i :class="isLoading ? 'fa-solid fa-hourglass-half' : 'fa-solid fa-arrows-rotate'"></i>
+        {{ isLoading ? ' Carregando...' : ' Atualizar Agora' }}
       </button>
     </div>
 
     <div v-if="lastUpdate" class="last-update">Última atualização: {{ lastUpdate }}</div>
 
-    <div v-if="error" class="error-message">⚠️ {{ error }}</div>
+    <div v-if="error" class="error-message"><i class="fa-solid fa-triangle-exclamation"></i> {{ error }}</div>
 
     <div v-if="isLoading && !sensorData" class="loading">
       <div class="loading-spinner"></div>
@@ -269,7 +270,7 @@ onUnmounted(() => {
     </div>
 
     <div v-else-if="!sensorData && !error" class="no-data">
-      <p>📊 Nenhum dado disponível. Configure a conexão e clique em "Conectar".</p>
+      <p><i class="fa-solid fa-chart-bar"></i> Nenhum dado disponível. Configure a conexão e clique em "Conectar".</p>
     </div>
 
     <div v-else-if="sensorData" class="sensor-grid">
@@ -288,7 +289,7 @@ onUnmounted(() => {
 
     <div v-if="sensorData" class="timestamp-info">
       <p>
-        📅 Dados coletados em:
+        <i class="fa-solid fa-calendar"></i> Dados coletados em:
         {{ new Date(sensorData.time_index).toLocaleString('pt-BR') }}
       </p>
     </div>
