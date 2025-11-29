@@ -80,6 +80,30 @@ function setDefaultDates() {
   startDate.value = start.toISOString().slice(0, 16)
 }
 
+function setLastDay() {
+  const end = new Date()
+  const start = new Date(end.getTime() - 24 * 60 * 60 * 1000) // 24 hours ago
+  endDate.value = end.toISOString().slice(0, 16)
+  startDate.value = start.toISOString().slice(0, 16)
+  fetchData()
+}
+
+function setLast15Days() {
+  const end = new Date()
+  const start = new Date(end.getTime() - 15 * 24 * 60 * 60 * 1000) // 15 days ago
+  endDate.value = end.toISOString().slice(0, 16)
+  startDate.value = start.toISOString().slice(0, 16)
+  fetchData()
+}
+
+function setLastMonth() {
+  const end = new Date()
+  const start = new Date(end.getTime() - 30 * 24 * 60 * 60 * 1000) // 30 days ago
+  endDate.value = end.toISOString().slice(0, 16)
+  startDate.value = start.toISOString().slice(0, 16)
+  fetchData()
+}
+
 async function fetchData() {
   if (!startDate.value || !endDate.value) {
     error.value = 'Por favor, selecione as datas de início e fim'
@@ -142,6 +166,21 @@ onMounted(() => {
 <template>
   <div class="temporal-view">
     <div class="filters-section">
+      <div class="quick-filters">
+        <label>Filtros Rápidos:</label>
+        <div class="quick-filter-buttons">
+          <button class="quick-filter-btn" @click="setLastDay" :disabled="isLoading">
+            <i class="fa-solid fa-calendar-day"></i> Último Dia
+          </button>
+          <button class="quick-filter-btn" @click="setLast15Days" :disabled="isLoading">
+            <i class="fa-solid fa-calendar-week"></i> Últimos 15 Dias
+          </button>
+          <button class="quick-filter-btn" @click="setLastMonth" :disabled="isLoading">
+            <i class="fa-solid fa-calendar"></i> Último Mês
+          </button>
+        </div>
+      </div>
+
       <div class="date-filters">
         <div class="date-group">
           <label for="startDate">Data Inicial:</label>
@@ -258,6 +297,51 @@ onMounted(() => {
   padding: 20px;
   border-radius: 12px;
   margin-bottom: 20px;
+}
+
+.quick-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.quick-filters label {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.quick-filter-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.quick-filter-btn {
+  padding: 10px 20px;
+  background: rgba(52, 152, 219, 0.3);
+  color: white;
+  border: 1px solid rgba(52, 152, 219, 0.5);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.quick-filter-btn:hover:not(:disabled) {
+  background: rgba(52, 152, 219, 0.5);
+  border-color: #3498db;
+  transform: translateY(-1px);
+}
+
+.quick-filter-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .date-filters {

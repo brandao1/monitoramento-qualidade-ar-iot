@@ -5,12 +5,12 @@ import { RouterView, RouterLink } from 'vue-router'
 <template>
   <div class="app-container">
     <header class="app-header">
-      <h1>🌬️ Monitor de Qualidade do Ar</h1>
+      <h1><i class="fa-solid fa-wind"></i> Monitor de Qualidade do Ar</h1>
       <p class="subtitle">Sistema de Monitoramento IoT em Tempo Real</p>
       
       <nav class="nav-menu">
-        <RouterLink to="/" class="nav-link">📊 Dashboard</RouterLink>
-        <RouterLink to="/temporal" class="nav-link">📈 Visualização Temporal</RouterLink>
+        <RouterLink to="/" class="nav-link"><i class="fa-solid fa-gauge"></i> Dashboard</RouterLink>
+        <RouterLink to="/temporal" class="nav-link"><i class="fa-solid fa-chart-line"></i> Visualização Temporal</RouterLink>
       </nav>
     </header>
 

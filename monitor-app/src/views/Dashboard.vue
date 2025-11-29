@@ -128,6 +128,22 @@ const sensorCards = computed<SensorCardType[]>(() => {
       icon: 'fa-solid fa-water',
       color: getPM10Color(sensorData.value.pm10_0),
     },
+    {
+      key: 'qualidade_ar',
+      title: 'Qualidade do Ar',
+      value: sensorData.value.qualidade_ar || 'N/A',
+      unit: '',
+      icon: 'fa-solid fa-lungs',
+      color: getAirQualityColor(sensorData.value.qualidade_ar),
+    },
+    {
+      key: 'anomalia',
+      title: 'Anomalia',
+      value: sensorData.value.anomalia ? 'Detectada' : 'Normal',
+      unit: '',
+      icon: sensorData.value.anomalia ? 'fa-solid fa-triangle-exclamation' : 'fa-solid fa-circle-check',
+      color: sensorData.value.anomalia ? '#e74c3c' : '#27ae60',
+    },
   ]
 })
 
@@ -166,6 +182,15 @@ function getPM10Color(pm: number): string {
   if (pm < 54) return '#27ae60'
   if (pm < 154) return '#f39c12'
   return '#e74c3c'
+}
+
+function getAirQualityColor(quality: string): string {
+  const qualityLower = quality?.toLowerCase() || ''
+  if (qualityLower.includes('boa') || qualityLower.includes('good')) return '#27ae60'
+  if (qualityLower.includes('moderada') || qualityLower.includes('moderate')) return '#f39c12'
+  if (qualityLower.includes('ruim') || qualityLower.includes('bad')) return '#e67e22'
+  if (qualityLower.includes('péssima') || qualityLower.includes('very bad')) return '#e74c3c'
+  return '#3498db'
 }
 
 async function fetchData() {
