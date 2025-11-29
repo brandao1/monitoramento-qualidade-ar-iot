@@ -459,7 +459,7 @@ onMounted(() => {
 .chart-bar::after {
   content: attr(data-value);
   position: absolute;
-  top: -30px;
+  bottom: -30px;
   left: 50%;
   transform: translateX(-50%);
   background: rgba(0, 0, 0, 0.9);
