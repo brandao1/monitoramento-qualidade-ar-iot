@@ -105,7 +105,7 @@ Ao final deste passo, você terá um novo arquivo `ml_models.h` na raiz do proje
 
 ### Passo 3: Configurar e Compilar o Firmware do ESP32
 
-1.  **Mova o Modelo:** Copie o arquivo `ml_models.h` gerado no passo anterior para dentro da pasta do seu projeto Arduino (ex: `src/` ou crie uma aba `ml_models.h` na Arduino IDE e cole o conteúdo).
+1.  **Mova o Modelo:** Copie o arquivo `ml_models.h` gerado no passo anterior para dentro da pasta do seu projeto Arduino (ex: `esp32/` ou crie uma aba `ml_models.h` na Arduino IDE e cole o conteúdo).
 
 2.  **Configurar o Código:**
 
@@ -142,19 +142,23 @@ Ao final deste passo, você terá um novo arquivo `ml_models.h` na raiz do proje
       - URL: `http://cratedb:4200` (O Grafana dentro do Docker pode resolver o nome `cratedb`)
 3.  Crie dashboards para visualizar os dados da tabela `etsensor` no schema `mttcc_service`.
 
+
 ## Estrutura de Arquivos
 
 ```
 .
-├── analysis/             # Scripts Python para treino e exportação dos modelos de ML
-│   ├── train_export_porter.py  # 1. Treina e salva .pkl
-│   ├── export_model_to_c.py    # 2. Converte .pkl para .c/.h
-│   ├── package_models.py       # 3. Empacota tudo em 'ml_models.h'
-│   └── ...
-├── docker-compose.yaml   # Orquestração de todos os serviços backend (FIWARE, BDs)
-├── docs/                 # Documentação adicional
-├── mosquitto/            # Configuração e dados do broker MQTT
-├── ml_models.h           # ARQUIVO GERADO: Modelos de ML em C (copiar para o projeto Arduino)
-└── src/
-    └── monitoramento-esp32.ino # Código fonte do firmware do ESP32
+├── analysis/             # Scripts Python para treino e exportação dos modelos de ML
+│   ├── train_export_porter.py  # 1. Treina e salva .pkl
+│   ├── export_model_to_c.py    # 2. Converte .pkl para .c/.h
+│   ├── package_models.py       # 3. Empacota tudo em 'ml_models.h'
+│   └── ...
+├── docker-compose.yaml   # Orquestração de todos os serviços backend (FIWARE, BDs)
+├── docs/                 # Documentação adicional
+├── esp32/                # Código fonte do firmware do ESP32
+│   └── monitoramento-esp32.ino
+├── monitor-app/          # Aplicação web de monitoramento (Vue.js)
+│   ├── src/
+│   └── ...
+├── mosquitto/            # Configuração e dados do broker MQTT
+└── config.json           # Configuração do FogFlow
 ```
