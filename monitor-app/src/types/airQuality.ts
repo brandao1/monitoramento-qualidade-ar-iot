@@ -1,12 +1,12 @@
 export interface SensorData {
-  temperature: number
-  humidity: number
+  t: number
+  h: number
   co2: number
   co: number
-  tolueno: number
-  amonia: number
-  acetona: number
-  ozonio: number
+  tol: number
+  nh4: number
+  ace: number
+  o3: number
   no2: number
   cl2: number
   pm1_0: number

@@ -16,7 +16,7 @@ export class AirQualityService {
   async getLatestSensorData(): Promise<SensorData | null> {
     const sql = {
       stmt: `SELECT 
-        temperature, humidity, co2, co, tolueno, amonia, acetona, ozonio, 
+        t, h, co2, co, tol, nh4, ace, o3, 
         no2, cl2, pm1_0, pm2_5, pm10_0, time_index
       FROM mttcc_service.etsensor 
       ORDER BY time_index DESC 
@@ -50,7 +50,7 @@ export class AirQualityService {
   async getHistoricalData(hours: number = 24): Promise<SensorData[]> {
     const sql = {
       stmt: `SELECT 
-        temperature, humidity, co2, co, tolueno, amonia, acetona, ozonio, 
+        t, h, co2, co, tol, nh4, ace, o3, 
         no2, cl2, pm1_0, pm2_5, pm10_0, time_index
       FROM mttcc_service.etsensor 
       WHERE time_index >= NOW() - INTERVAL '${hours} hours'
@@ -86,14 +86,14 @@ export class AirQualityService {
     })
 
     return {
-      temperature: (data.temperature as number) ?? 0,
-      humidity: (data.humidity as number) ?? 0,
+      t: (data.t as number) ?? 0,
+      h: (data.h as number) ?? 0,
       co2: (data.co2 as number) ?? 0,
       co: (data.co as number) ?? 0,
-      tolueno: (data.tolueno as number) ?? 0,
-      amonia: (data.amonia as number) ?? 0,
-      acetona: (data.acetona as number) ?? 0,
-      ozonio: (data.ozonio as number) ?? 0,
+      tol: (data.tol as number) ?? 0,
+      nh4: (data.nh4 as number) ?? 0,
+      ace: (data.ace as number) ?? 0,
+      o3: (data.o3 as number) ?? 0,
       no2: (data.no2 as number) ?? 0,
       cl2: (data.cl2 as number) ?? 0,
       pm1_0: (data.pm1_0 as number) ?? 0,
