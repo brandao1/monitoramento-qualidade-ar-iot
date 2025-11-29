@@ -22,6 +22,7 @@ const airQualityService = computed(() =>
 
 const sensorCards = computed<SensorCardType[]>(() => {
   if (!sensorData.value) return []
+  console.log(sensorData.value)
 
   return [
     {

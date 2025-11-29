@@ -157,6 +157,8 @@ export class AirQualityService {
       pm1_0: Number(data.pm1_0) || 0,
       pm2_5: Number(data.pm2_5) || 0,
       pm10_0: Number(data.pm10_0) || 0,
+      qualidade_ar: String(data.qualidade_ar) || 'Desconhecida',
+      anomalia: Boolean(data.anomalia) || false,
       time_index: Number(data.time_index) || 0,
     }
   }
