@@ -112,6 +112,104 @@ export class AirQualityService {
     }
   }
 
+  async saveReferenceValues(references: any[]): Promise<void> {
+    // Criar a tabela se não existir
+    const createTableSql = {
+      stmt: `CREATE TABLE IF NOT EXISTS "mttcc_service"."reference_values" (
+        "metric_key" STRING PRIMARY KEY,
+        "label" STRING,
+        "unit" STRING,
+        "icon" STRING,
+        "min_value" DOUBLE,
+        "max_value" DOUBLE,
+        "updated_at" TIMESTAMP
+      )`,
+    }
+
+    try {
+      await fetch(this.crateDbUrl, {
+        method: 'POST',
+        headers: FIWARE_HEADERS,
+        body: JSON.stringify(createTableSql),
+      })
+
+      // Inserir ou atualizar cada valor de referência
+      for (const ref of references) {
+        const upsertSql = {
+          stmt: `INSERT INTO "mttcc_service"."reference_values" 
+            (metric_key, label, unit, icon, min_value, max_value, updated_at) 
+            VALUES (?, ?, ?, ?, ?, ?, ?) 
+            ON CONFLICT (metric_key) DO UPDATE SET 
+              label = excluded.label,
+              unit = excluded.unit,
+              icon = excluded.icon,
+              min_value = excluded.min_value,
+              max_value = excluded.max_value,
+              updated_at = excluded.updated_at`,
+          args: [ref.key, ref.label, ref.unit, ref.icon, ref.min, ref.max, Date.now()],
+        }
+
+        await fetch(this.crateDbUrl, {
+          method: 'POST',
+          headers: FIWARE_HEADERS,
+          body: JSON.stringify(upsertSql),
+        })
+      }
+
+      // Refresh para garantir que os dados foram salvos
+      const refreshSql = {
+        stmt: `REFRESH TABLE "mttcc_service"."reference_values"`,
+      }
+
+      await fetch(this.crateDbUrl, {
+        method: 'POST',
+        headers: FIWARE_HEADERS,
+        body: JSON.stringify(refreshSql),
+      })
+    } catch (error) {
+      console.error('Error saving reference values:', error)
+      throw error
+    }
+  }
+
+  async loadReferenceValues(): Promise<any[]> {
+    const sql = {
+      stmt: `SELECT metric_key, label, unit, icon, min_value, max_value 
+             FROM "mttcc_service"."reference_values" 
+             ORDER BY metric_key`,
+    }
+
+    try {
+      const response = await fetch(this.crateDbUrl, {
+        method: 'POST',
+        headers: FIWARE_HEADERS,
+        body: JSON.stringify(sql),
+      })
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const data: CrateDBResponse = await response.json()
+
+      if (data.rowCount === 0) {
+        return []
+      }
+
+      return data.rows.map((row) => ({
+        key: row[0] as string,
+        label: row[1] as string,
+        unit: row[2] as string,
+        icon: row[3] as string,
+        min: Number(row[4]) || 0,
+        max: Number(row[5]) || 0,
+      }))
+    } catch (error) {
+      console.error('Error loading reference values:', error)
+      return []
+    }
+  }
+
   private mapRowToSensorData(cols: string[], row: (string | number | null)[]): SensorData {
     const columnMapping: Record<string, keyof SensorData> = {
       temperature: 't',
