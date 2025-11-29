@@ -12,7 +12,9 @@ export interface SensorData {
   pm1_0: number
   pm2_5: number
   pm10_0: number
-  time_index: string
+  qualidade_ar: string
+  anomalia: boolean
+  time_index: number
 }
 
 export interface CrateDBResponse {

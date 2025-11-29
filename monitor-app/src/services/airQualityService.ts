@@ -16,7 +16,7 @@ export class AirQualityService {
   async getLatestSensorData(): Promise<SensorData | null> {
     const sql = {
       stmt: `SELECT  temperature, humidity, carbonmonoxide, carbondioxide, toluene, ammonium, acetone, ozone,
-     nitrogendioxide, chlorine, pm1, pm10, pm25, qualidade_ar, time_index
+     nitrogendioxide, chlorine, pm1, pm10, pm25, anomalia, qualidade_ar, time_index
       FROM "mttcc_service"."etsensor"
       ORDER BY time_index DESC
       LIMIT 1;`,
@@ -51,7 +51,7 @@ export class AirQualityService {
     const sql = {
       stmt: `SELECT 
         t, h, co2, co, tol, nh4, ace, o3, 
-        no2, cl2, pm1_0, pm2_5, pm10_0, time_index
+        no2, cl2, pm1_0, pm2_5, pm10_0, anomalia, qualidade_ar, time_index
       FROM mttcc_service.etsensor 
       WHERE time_index >= NOW() - INTERVAL '${hours} hours'
       ORDER BY time_index DESC 
@@ -78,40 +78,6 @@ export class AirQualityService {
     }
   }
 
-  async getHistoricalDataByDateRange(startDate: Date, endDate: Date): Promise<SensorData[]> {
-    const startTimestamp = startDate.getTime()
-    const endTimestamp = endDate.getTime()
-
-    const sql = {
-      stmt: `SELECT 
-        temperature, humidity, carbonmonoxide, carbondioxide, toluene, ammonium, 
-        acetone, ozone, nitrogendioxide, chlorine, pm1, pm25, pm10, time_index
-      FROM "mttcc_service"."etsensor" 
-      WHERE time_index >= ${startTimestamp} AND time_index <= ${endTimestamp}
-      ORDER BY time_index DESC 
-      LIMIT 1000`,
-    }
-
-    try {
-      const response = await fetch(this.crateDbUrl, {
-        method: 'POST',
-        headers: FIWARE_HEADERS,
-        body: JSON.stringify(sql),
-      })
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-
-      const data: CrateDBResponse = await response.json()
-
-      return data.rows.map((row) => this.mapRowToSensorData(data.cols, row))
-    } catch (error) {
-      console.error('Error fetching historical data by date range:', error)
-      throw error
-    }
-  }
-
   private mapRowToSensorData(cols: string[], row: (string | number | null)[]): SensorData {
     const columnMapping: Record<string, keyof SensorData> = {
       temperature: 't',
@@ -127,6 +93,9 @@ export class AirQualityService {
       pm1: 'pm1_0',
       pm25: 'pm2_5',
       pm10: 'pm10_0',
+      qualidade_ar: 'qualidade_ar',
+      anomalia: 'anomalia',
+      
       time_index: 'time_index',
     }
 
@@ -136,7 +105,6 @@ export class AirQualityService {
       console.log('Mapping column:', col, 'with value:', row[index])
       const mappedKey = columnMapping[col]
       if (mappedKey) {
-        // O CrateDB retorna o timestamp como um número grande (milissegundos)
         data[mappedKey] = row[index] as any
       }
     })
