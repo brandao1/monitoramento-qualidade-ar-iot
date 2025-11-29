@@ -35,9 +35,10 @@ defineEmits<{
 
 <style scoped>
 .sensor-card {
-  background: white;
+  background: rgba(30, 30, 46, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   padding: 16px;
   transition: all 0.3s ease;
   min-width: 200px;
@@ -45,7 +46,8 @@ defineEmits<{
 
 .sensor-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .sensor-card.collapsed {
@@ -68,7 +70,7 @@ defineEmits<{
 .card-title h3 {
   margin: 0;
   font-size: 1rem;
-  color: #333;
+  color: #e0e0e0;
   font-weight: 600;
 }
 
@@ -85,12 +87,14 @@ defineEmits<{
   border: none;
   cursor: pointer;
   font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.6);
   opacity: 0.6;
-  transition: opacity 0.2s;
+  transition: all 0.2s;
 }
 
 .toggle-btn:hover {
   opacity: 1;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .card-content {

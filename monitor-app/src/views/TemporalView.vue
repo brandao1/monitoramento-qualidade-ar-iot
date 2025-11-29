@@ -209,6 +209,7 @@ onMounted(() => {
             >
               <div
                 class="chart-bar"
+                :data-value="point.value.toFixed(2)"
                 :style="{
                   height: `${getChartBarHeight(point.value)}%`,
                   backgroundColor: getChartBarColor(point.value),
@@ -252,7 +253,8 @@ onMounted(() => {
 }
 
 .filters-section {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 20px;
   border-radius: 12px;
   margin-bottom: 20px;
@@ -279,11 +281,20 @@ onMounted(() => {
 
 .date-group input {
   padding: 10px 14px;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
   font-size: 1rem;
-  background: white;
-  color: #333;
+  background: rgba(30, 30, 46, 0.8);
+  color: white;
+}
+
+.date-group input:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+.date-group input::-webkit-calendar-picker-indicator {
+  filter: invert(1);
 }
 
 .fetch-btn {
@@ -315,13 +326,18 @@ onMounted(() => {
 
 .metric-selector select {
   padding: 10px 14px;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
   font-size: 1rem;
-  background: white;
-  color: #333;
+  background: rgba(30, 30, 46, 0.8);
+  color: white;
   cursor: pointer;
   min-width: 250px;
+}
+
+.metric-selector select:focus {
+  outline: none;
+  border-color: #3498db;
 }
 
 .error-message {
@@ -367,7 +383,8 @@ onMounted(() => {
 }
 
 .stat-card {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 20px;
   border-radius: 12px;
   text-align: center;
@@ -385,7 +402,8 @@ onMounted(() => {
 }
 
 .chart-container {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 20px;
   border-radius: 12px;
 }
@@ -398,7 +416,7 @@ onMounted(() => {
 .chart {
   height: 400px;
   position: relative;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.4);
   border-radius: 8px;
   padding: 20px;
   overflow-x: auto;
@@ -430,11 +448,34 @@ onMounted(() => {
   border-radius: 4px 4px 0 0;
   transition: all 0.3s;
   cursor: pointer;
+  position: relative;
 }
 
 .chart-bar:hover {
   opacity: 0.8;
   transform: scaleY(1.05);
+}
+
+.chart-bar::after {
+  content: attr(data-value);
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  z-index: 10;
+}
+
+.chart-bar:hover::after {
+  opacity: 1;
 }
 
 .chart-label {
@@ -447,7 +488,8 @@ onMounted(() => {
 }
 
 .data-table {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 20px;
   border-radius: 12px;
 }
@@ -465,13 +507,13 @@ onMounted(() => {
 table {
   width: 100%;
   border-collapse: collapse;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.4);
 }
 
 thead {
   position: sticky;
   top: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.7);
   z-index: 1;
 }
 

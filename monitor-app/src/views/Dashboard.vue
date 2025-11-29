@@ -308,9 +308,10 @@ onUnmounted(() => {
   align-items: flex-end;
   margin-bottom: 20px;
   flex-wrap: wrap;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.3);
   padding: 16px;
   border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .config-group {
@@ -326,11 +327,17 @@ onUnmounted(() => {
 
 .config-group input {
   padding: 10px 14px;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
   font-size: 1rem;
-  background: white;
+  background: rgba(30, 30, 46, 0.8);
+  color: white;
   min-width: 150px;
+}
+
+.config-group input:focus {
+  outline: none;
+  border-color: #3498db;
 }
 
 .config-btn {
@@ -366,11 +373,17 @@ onUnmounted(() => {
 
 .auto-refresh select {
   padding: 10px 14px;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
   font-size: 1rem;
   cursor: pointer;
-  background: white;
+  background: rgba(30, 30, 46, 0.8);
+  color: white;
+}
+
+.auto-refresh select:focus {
+  outline: none;
+  border-color: #3498db;
 }
 
 .refresh-btn {
@@ -436,7 +449,8 @@ onUnmounted(() => {
   text-align: center;
   color: white;
   padding: 40px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
 }
 

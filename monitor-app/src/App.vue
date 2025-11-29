@@ -36,7 +36,7 @@ body {
     Oxygen,
     Ubuntu,
     sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
   min-height: 100vh;
 }
 
@@ -74,23 +74,24 @@ body {
 
 .nav-link {
   padding: 12px 24px;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
   color: white;
   text-decoration: none;
   border-radius: 8px;
   font-size: 1rem;
   transition: all 0.3s;
-  border: 2px solid transparent;
+  border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .nav-link:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.2);
   transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.4);
 }
 
 .nav-link.router-link-active {
-  background: rgba(255, 255, 255, 0.3);
-  border-color: white;
+  background: rgba(52, 152, 219, 0.3);
+  border-color: #3498db;
   font-weight: bold;
 }
 
