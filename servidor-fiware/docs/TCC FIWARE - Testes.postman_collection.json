@@ -177,7 +177,6 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"description\": \"Notifica QuantumLeap sobre mudancas nos sensores\",\n    \"subject\": {\n        \"entities\": [\n            {\n                \"idPattern\": \".*\",\n                \"type\": \"Sensor\"\n            }\n        ],\n        \"condition\": {\n            \"attrs\": [\"temperature\", \"humidity\", \"pm25\"]\n        }\n    },\n    \"notification\": {\n        \"http\": {\n            \"url\": \"http://quantumleap:8668/v2/notify\"\n        }\n    }\n}",
-				"idPattern\": \".*\",\n                \"type\": \"Sensor\"\n            }\n        ],\n        \"condition\": {\n            \"attrs\": [\n                \"temperature\", \n                \"humidity\", \n                \"carbondioxide\", \n                \"carbonmonoxide\", \n                \"alcohol\", \n                \"toluene\", \n                \"ammonium\", \n                \"acetone\", \n                \"ozone\", \n                \"nitrogendioxide\", \n                \"chlorine\", \n                \"pm1\", \n                \"pm25\", \n                \"pm10\",\n                \"airQuality\",\n                \"anomaly\"\n            ]\n        }\n    },\n    \"notification\": {\n        \"http\": {\n            \"url\": \"http://quantumleap:8668/v2/notify\"\n        }\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
