@@ -78,6 +78,40 @@ export class AirQualityService {
     }
   }
 
+    async getHistoricalDataByDateRange(startDate: Date, endDate: Date): Promise<SensorData[]> {
+    const startTimestamp = startDate.getTime()
+    const endTimestamp = endDate.getTime()
+
+    const sql = {
+      stmt: `SELECT 
+        temperature, humidity, carbonmonoxide, carbondioxide, toluene, ammonium, 
+        acetone, ozone, nitrogendioxide, chlorine, pm1, pm25, pm10, time_index
+      FROM "mttcc_service"."etsensor" 
+      WHERE time_index >= ${startTimestamp} AND time_index <= ${endTimestamp}
+      ORDER BY time_index DESC 
+      LIMIT 1000`,
+    }
+
+    try {
+      const response = await fetch(this.crateDbUrl, {
+        method: 'POST',
+        headers: FIWARE_HEADERS,
+        body: JSON.stringify(sql),
+      })
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const data: CrateDBResponse = await response.json()
+
+      return data.rows.map((row) => this.mapRowToSensorData(data.cols, row))
+    } catch (error) {
+      console.error('Error fetching historical data by date range:', error)
+      throw error
+    }
+  }
+
   private mapRowToSensorData(cols: string[], row: (string | number | null)[]): SensorData {
     const columnMapping: Record<string, keyof SensorData> = {
       temperature: 't',
