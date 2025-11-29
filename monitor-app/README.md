@@ -1,48 +1,93 @@
-# monitor-app
+# Monitor de Qualidade do Ar - IoT
 
-This template should help get you started developing with Vue 3 in Vite.
+Uma aplicação Vue.js para monitoramento em tempo real da qualidade do ar, baseada no projeto [smart-meter](https://github.com/AlissonWeiss/smart-meter.git).
 
-## Recommended IDE Setup
+## Funcionalidades
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- **Visualização em tempo real** dos dados de sensores de qualidade do ar
+- **Atualização automática** configurável (2s, 5s, 10s, 30s, 1min)
+- **Cards interativos** para cada métrica com indicadores visuais de cores
+- **Interface responsiva** para desktop e dispositivos móveis
+- **Conexão configurável** ao CrateDB
 
-## Recommended Browser Setup
+## Sensores Suportados
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) 
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+| Sensor | Descrição | Unidade |
+|--------|-----------|---------|
+| Temperatura | Temperatura ambiente | °C |
+| Umidade | Umidade relativa do ar | % |
+| CO₂ | Dióxido de carbono | ppm |
+| CO | Monóxido de carbono | ppm |
+| Tolueno | Concentração de tolueno | ppm |
+| Amônia | Concentração de amônia | ppm |
+| Acetona | Concentração de acetona | ppm |
+| Ozônio | Concentração de ozônio | ppm |
+| NO₂ | Dióxido de nitrogênio | ppm |
+| Cl₂ | Cloro | ppm |
+| PM 1.0 | Material particulado 1.0µm | µg/m³ |
+| PM 2.5 | Material particulado 2.5µm | µg/m³ |
+| PM 10.0 | Material particulado 10µm | µg/m³ |
 
-## Type Support for `.vue` Imports in TS
+## Pré-requisitos
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+- Node.js 20.19.0+ ou 22.12.0+
+- CrateDB rodando (via Docker Compose do projeto principal)
 
-## Customize configuration
+## Configuração
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+### Variáveis de Ambiente (Opcional)
 
-## Project Setup
+Crie um arquivo `.env` na raiz do projeto:
+
+```env
+VITE_CRATEDB_HOST=localhost
+VITE_CRATEDB_PORT=4200
+```
+
+Ou configure diretamente na interface da aplicação.
+
+## Instalação e Execução
 
 ```sh
+# Instalar dependências
 npm install
-```
 
-### Compile and Hot-Reload for Development
-
-```sh
+# Executar em modo desenvolvimento
 npm run dev
-```
 
-### Type-Check, Compile and Minify for Production
-
-```sh
+# Compilar para produção
 npm run build
+
+# Pré-visualizar build de produção
+npm run preview
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+## Uso
+
+1. Inicie o backend FIWARE com Docker Compose (do projeto principal)
+2. Execute a aplicação: `npm run dev`
+3. Acesse `http://localhost:5173`
+4. Configure o host e porta do CrateDB (padrão: localhost:4200)
+5. Clique em "Conectar" para carregar os dados
+6. Configure a atualização automática se desejar
+
+## Tecnologias
+
+- Vue.js 3 (Composition API)
+- TypeScript
+- Vite
+- CrateDB (via FIWARE stack)
+
+## IDE Recomendada
+
+[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+
+## Scripts Disponíveis
 
 ```sh
-npm run lint
+npm run dev      # Desenvolvimento com hot-reload
+npm run build    # Build para produção
+npm run preview  # Preview do build de produção
+npm run lint     # Lint com ESLint
+npm run format   # Formatar código com Prettier
 ```
