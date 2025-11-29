@@ -15,13 +15,13 @@ export class AirQualityService {
 
   async getLatestSensorData(): Promise<SensorData | null> {
     const sql = {
-      stmt: `SELECT 
-        t, h, co2, co, tol, nh4, ace, o3, 
-        no2, cl2, pm1_0, pm2_5, pm10_0, time_index
-      FROM mttcc_service.etsensor 
-      ORDER BY time_index DESC 
-      LIMIT 1`,
+      stmt: `SELECT  temperature, humidity, carbonmonoxide, carbondioxide, toluene, ammonium, acetone, ozone,
+     nitrogendioxide, chlorine, pm1, pm10, pm25, qualidade_ar, time_index
+      FROM "mttcc_service"."etsensor"
+      ORDER BY time_index DESC
+      LIMIT 1;`,
     }
+
 
     try {
       const response = await fetch(this.crateDbUrl, {
@@ -39,7 +39,7 @@ export class AirQualityService {
       if (data.rowCount === 0 || !data.rows[0]) {
         return null
       }
-
+      console.log('tatatata:', this.mapRowToSensorData(data.cols, data.rows[0]))
       return this.mapRowToSensorData(data.cols, data.rows[0])
     } catch (error) {
       console.error('Error fetching latest sensor data:', error)
@@ -79,27 +79,49 @@ export class AirQualityService {
   }
 
   private mapRowToSensorData(cols: string[], row: (string | number | null)[]): SensorData {
-    const data: Record<string, string | number | null> = {}
+    const columnMapping: Record<string, keyof SensorData> = {
+      temperature: 't',
+      humidity: 'h',
+      carbondioxide: 'co2',
+      carbonmonoxide: 'co',
+      toluene: 'tol',
+      ammonium: 'nh4',
+      acetone: 'ace',
+      ozone: 'o3',
+      nitrogendioxide: 'no2',
+      chlorine: 'cl2',
+      pm1: 'pm1_0',
+      pm25: 'pm2_5',
+      pm10: 'pm10_0',
+      time_index: 'time_index',
+    }
+
+    const data: Partial<SensorData> = {}
 
     cols.forEach((col, index) => {
-      data[col] = row[index] ?? null
+      console.log('Mapping column:', col, 'with value:', row[index])
+      const mappedKey = columnMapping[col]
+      if (mappedKey) {
+        // O CrateDB retorna o timestamp como um número grande (milissegundos)
+        data[mappedKey] = row[index] as any
+      }
     })
 
     return {
-      t: (data.t as number) ?? 0,
-      h: (data.h as number) ?? 0,
-      co2: (data.co2 as number) ?? 0,
-      co: (data.co as number) ?? 0,
-      tol: (data.tol as number) ?? 0,
-      nh4: (data.nh4 as number) ?? 0,
-      ace: (data.ace as number) ?? 0,
-      o3: (data.o3 as number) ?? 0,
-      no2: (data.no2 as number) ?? 0,
-      cl2: (data.cl2 as number) ?? 0,
-      pm1_0: (data.pm1_0 as number) ?? 0,
-      pm2_5: (data.pm2_5 as number) ?? 0,
-      pm10_0: (data.pm10_0 as number) ?? 0,
-      time_index: (data.time_index as string) ?? new Date().toISOString(),
+      t: Number(data.t) || 0,
+      h: Number(data.h) || 0,
+      co2: Number(data.co2) || 0,
+      co: Number(data.co) || 0,
+      tol: Number(data.tol) || 0,
+      nh4: Number(data.nh4) || 0,
+      ace: Number(data.ace) || 0,
+      o3: Number(data.o3) || 0,
+      no2: Number(data.no2) || 0,
+      cl2: Number(data.cl2) || 0,
+      pm1_0: Number(data.pm1_0) || 0,
+      pm2_5: Number(data.pm2_5) || 0,
+      pm10_0: Number(data.pm10_0) || 0,
+      time_index: Number(data.time_index) || 0,
     }
   }
 }
