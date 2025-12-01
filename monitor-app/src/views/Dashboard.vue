@@ -2,9 +2,11 @@
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 import SensorCard from '@/components/SensorCard.vue'
 import { createAirQualityService } from '@/services/airQualityService'
+import { notificationService } from '@/services/notificationService'
 import type { SensorData, SensorCard as SensorCardType } from '@/types/airQuality'
 
 const sensorData = ref<SensorData | null>(null)
+const previousSensorData = ref<SensorData | null>(null)
 const isLoading = ref(false)
 const error = ref<string | null>(null)
 const lastUpdate = ref<string>('')
@@ -194,14 +196,68 @@ function getAirQualityColor(quality: string): string {
   return '#3498db'
 }
 
+async function checkNotifications(data: SensorData) {
+  if (!notificationService.isEnabled()) return
+
+  // Verificar anomalia
+  if (data.anomalia && (!previousSensorData.value || !previousSensorData.value.anomalia)) {
+    await notificationService.notifyAnomaly(
+      'Uma anomalia foi detectada nos dados dos sensores. Verifique o dashboard para mais detalhes.',
+    )
+  }
+
+  // Carregar valores de referência do localStorage ou do service
+  try {
+    const references = await airQualityService.value.loadReferenceValues()
+    
+    if (references && references.length > 0) {
+      // Verificar cada métrica
+      for (const ref of references) {
+        const currentValue = data[ref.key as keyof SensorData] as number
+        
+        if (typeof currentValue === 'number' && (currentValue < ref.min || currentValue > ref.max)) {
+          // Verificar se já estava fora do padrão antes (evitar notificações duplicadas)
+          const wasOutOfRange = previousSensorData.value
+            ? (previousSensorData.value[ref.key as keyof SensorData] as number) < ref.min ||
+              (previousSensorData.value[ref.key as keyof SensorData] as number) > ref.max
+            : false
+
+          if (!wasOutOfRange) {
+            await notificationService.notifyOutOfRange(
+              ref.label,
+              currentValue,
+              ref.min,
+              ref.max,
+              ref.unit,
+            )
+          }
+        }
+      }
+    }
+  } catch (err) {
+    console.error('Error checking reference values for notifications:', err)
+  }
+}
+
 async function fetchData() {
   isLoading.value = true
   error.value = null
 
   try {
     const data = await airQualityService.value.getLatestSensorData()
+    
+    // Verificar notificações antes de atualizar
+    if (sensorData.value) {
+      previousSensorData.value = { ...sensorData.value }
+    }
+    
     sensorData.value = data
     lastUpdate.value = new Date().toLocaleString('pt-BR')
+    
+    // Verificar notificações após atualizar
+    if (data) {
+      await checkNotifications(data)
+    }
   } catch (err) {
     error.value = err instanceof Error ? err.message : 'Erro ao carregar dados'
     console.error('Error fetching data:', err)
@@ -256,6 +312,11 @@ onUnmounted(() => {
 
 <template>
   <div class="dashboard-container">
+    <div v-if="notificationService.isEnabled()" class="notification-banner">
+      <i class="fa-solid fa-bell"></i>
+      <span>Notificações ativadas - Você será alertado sobre anomalias e valores fora do padrão</span>
+    </div>
+
     <div class="config-section">
       <div class="config-group">
         <label for="crateHost">Host CrateDB:</label>
@@ -325,6 +386,51 @@ onUnmounted(() => {
 <style scoped>
 .dashboard-container {
   width: 100%;
+}
+
+.notification-banner {
+  background: rgba(39, 174, 96, 0.2);
+  border: 1px solid rgba(39, 174, 96, 0.4);
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #27ae60;
+  font-size: 0.95rem;
+  animation: fadeIn 0.3s ease;
+}
+
+.notification-banner i {
+  font-size: 1.2rem;
+  animation: bellRing 2s ease-in-out infinite;
+}
+
+@keyframes bellRing {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  10%, 30% {
+    transform: rotate(-10deg);
+  }
+  20%, 40% {
+    transform: rotate(10deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .config-section {

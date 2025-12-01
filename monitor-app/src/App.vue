@@ -12,6 +12,7 @@ import { RouterView, RouterLink } from 'vue-router'
         <RouterLink to="/" class="nav-link"><i class="fa-solid fa-gauge"></i> Dashboard</RouterLink>
         <RouterLink to="/temporal" class="nav-link"><i class="fa-solid fa-chart-line"></i> Visualização Temporal</RouterLink>
         <RouterLink to="/reference" class="nav-link"><i class="fa-solid fa-sliders"></i> Valores de Referência</RouterLink>
+        <RouterLink to="/notifications" class="nav-link"><i class="fa-solid fa-bell"></i> Notificações</RouterLink>
       </nav>
     </header>
 

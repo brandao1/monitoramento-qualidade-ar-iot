@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Dashboard from '@/views/Dashboard.vue'
 import TemporalView from '@/views/TemporalView.vue'
 import ReferenceValues from '@/views/ReferenceValues.vue'
+import NotificationSettings from '@/views/NotificationSettings.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,6 +21,11 @@ const router = createRouter({
       path: '/reference',
       name: 'reference',
       component: ReferenceValues,
+    },
+    {
+      path: '/notifications',
+      name: 'notifications',
+      component: NotificationSettings,
     },
   ],
 })
