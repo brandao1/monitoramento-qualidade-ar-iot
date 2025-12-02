@@ -43,7 +43,7 @@ const char* lastAirQuality = "calculando";
 #define PMS_TX_PIN 26
 #define RXD1_PIN 18            // TX do MH-Z19E
 #define TXD1_PIN 19            // RX do MH-Z19E
-#define FORCE_CALIBRATE_PIN 0  // <<< ADIÇÃO: Pino para forçar (Botão BOOT/FLASH)
+#define FORCE_CALIBRATE_PIN 0  // Pino para forçar (Botão BOOT/FLASH)
 
 // --- Parâmetros Gerais dos Sensores ---
 #define BOARD "ESP-32"
@@ -95,7 +95,7 @@ float lastPM1_0 = 0.0, lastPM2_5 = 0.0, lastPM10_0 = 0.0;
 
 // Controle de tempo
 long lastMsg = 0;
-long interval = 10000;  // Intervalo de 10 segundos
+long interval = 10000; 
 unsigned long heatingStartTime = 0;
 bool isHighVoltageHeating = true;  // Estado do aquecedor do MQ-7
 
@@ -108,7 +108,7 @@ void flashLed(int times) {
     digitalWrite(LED_BUILTIN, HIGH);
     delay(300);
     digitalWrite(LED_BUILTIN, LOW);
-    delay(100);  // Pequena pausa
+    delay(100); 
   }
 }
 
@@ -151,7 +151,7 @@ void calibrateMQ135() {
     Serial.print(".");
   }
 
-  float finalR0 = calcR0 / 10;  // Guarda o valor final
+  float finalR0 = calcR0 / 10; 
   MQ135.setR0(finalR0);
   Serial.println("  Calibração concluída!");
 
@@ -230,7 +230,7 @@ void calibrateSensorMQ7() {
 
 void setupSensorMQ7() {
   MQ7.setRegressionMethod(1);
-  MQ7.setA(99.042);  // Pré-define A e B para CO
+  MQ7.setA(99.042);  
   MQ7.setB(-1.518);
   MQ7.init();
   pinMode(SENSOR_PWM_PIN, OUTPUT);
@@ -312,7 +312,7 @@ void setupSensorMQ131() {
 // =====================================================================
 
 void handleRoot() {
-    char msg[3000]; // Aumentei o buffer de 2500 para 3000
+    char msg[3000];
     snprintf(msg, 3000,
              "<html>\
   <head>\
@@ -354,7 +354,6 @@ void handleRoot() {
   </body>\
 </html>",
              lastTemp, lastHum, lastCO2, lastCO, lastToluene, lastNH4, lastAcetone, lastO3, lastNO2, lastCL2, lastAlcohol,
-             // ADIÇÃO: Novas variáveis para ML
              lastAirQuality,
              (lastAnomaly ? "<span style=\\\"color:red; font-weight:bold;\\\">SIM</span>" : "<span style=\\\"color:green;\\\">NÃO</span>")
     );
@@ -401,8 +400,7 @@ void setup(void) {
 
   // Configurar pino de calibração
   pinMode(FORCE_CALIBRATE_PIN, INPUT_PULLUP);
-  pinMode(LED_BUILTIN, OUTPUT);  // Configura LED para feedback
-
+  pinMode(LED_BUILTIN, OUTPUT);  
   if (digitalRead(FORCE_CALIBRATE_PIN) == LOW) {
     Serial.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     Serial.println("!!! FORÇANDO RECALIBRAÇÃO !!!");
@@ -421,7 +419,6 @@ void setup(void) {
     }
   }
 
-
   // Iniciar Serial 2 (PMS7003)
   pmsSerial.begin(9600, SERIAL_8N1, PMS_RX_PIN, PMS_TX_PIN);
   pms.wakeUp();
@@ -432,12 +429,12 @@ void setup(void) {
   mhz19.autoCalibration(false);
   Serial.println("MH-Z19E: Sensor inicializado.");
 
-  // Iniciar Sensores (AGORA COM LÓGICA DE CARGA/SALVAMENTO)
+  // Iniciar Sensores
   dht22.begin();
-  setupSensorMQ7();             // Esta função agora carrega ou calibra
+  setupSensorMQ7();             
   heatingStartTime = millis();  // Inicia o timer do ciclo do MQ-7
-  setupSensorMQ131();           // Esta função agora carrega ou calibra
-  setupSensorMQ135();           // Esta função agora carrega ou calibra
+  setupSensorMQ131();           
+  setupSensorMQ135();           
 
   // Conectar WiFi
   setup_wifi();
