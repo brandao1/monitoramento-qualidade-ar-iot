@@ -7,6 +7,8 @@ services:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
+    environment:
+      - TZ=America/Sao_Paulo
     networks:
       - fiware-net
 
@@ -19,6 +21,8 @@ services:
     ports:
       - "1026:1026"
     command: -dbhost mongo -logLevel DEBUG
+    environment:
+      - TZ=America/Sao_Paulo
     networks:
       - fiware-net
 
@@ -32,6 +36,8 @@ services:
     command: -Cdiscovery.type=single-node
     volumes:
       - cratedb-data:/data
+    environment:
+      - TZ=America/Sao_Paulo
     networks:
       - fiware-net
     healthcheck:
@@ -55,6 +61,7 @@ services:
       - CRATE_HOST=cratedb
       - QL_ORION_HOST=orion
       - LOGLEVEL=DEBUG
+      - TZ=America/Sao_Paulo
     networks:
       - fiware-net
 
@@ -68,6 +75,8 @@ services:
       - ./mosquitto/config:/mosquitto/config
       - ./mosquitto/data:/mosquitto/data
       - ./mosquitto/log:/mosquitto/log
+    environment:
+      - TZ=America/Sao_Paulo
     networks:
       - fiware-net
 
@@ -84,6 +93,7 @@ services:
       - IOTA_CB_HOST=orion
       - IOTA_CB_PORT=1026
       - IOTA_NORTH_PORT=4041
+      - IOTA_PROVIDER_URL=http://iot-agent:4041
       - IOTA_REGISTRY_TYPE=mongodb
       - IOTA_MONGO_HOST=mongo
       - IOTA_MONGO_PORT=27017
@@ -92,6 +102,7 @@ services:
       - IOTA_MQTT_PORT=1883
       - IOTA_DEFAULT_RESOURCE=/iot/json
       - IOTA_LOG_LEVEL=DEBUG
+      - TZ=America/Sao_Paulo
     networks:
       - fiware-net
 
@@ -102,67 +113,11 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
-    networks:
-      - fiware-net
-
-  dgraph-zero:
-    image: dgraph/dgraph:v21.03.0
-    container_name: dgraph-zero
-    hostname: dgraph-zero
-    ports:
-      - "5080:5080"
-      - "6080:6080"
-    volumes:
-      - dgraph-data:/dgraph
-    command: dgraph zero --my=dgraph-zero:5080
-    networks:
-      - fiware-net
-
-  dgraph-alpha:
-    image: dgraph/dgraph:v21.03.0
-    container_name: dgraph-alpha
-    hostname: dgraph-alpha
-    depends_on:
-      - dgraph-zero
-    ports:
-      - "8080:8080"
-      - "9080:9080"
-    volumes:
-      - dgraph-data:/dgraph
-    command: dgraph alpha --my=dgraph-alpha:7080 --zero=dgraph-zero:5080
-    networks:
-      - fiware-net
-
-  fogflow-master:
-    image: fogflow/master:3.2
-    hostname: fogflow-master
-    container_name: fogflow-master
-    depends_on:
-      - orion
-      - rabbitmq
-      - dgraph-alpha
-    ports:
-      - "1060:1060"
-    volumes:
-      - ./config.json:/config.json
-    networks:
-      - fiware-net
-
-  fogflow-designer:
-    image: fogflow/designer:3.2
-    hostname: fogflow-designer
-    container_name: fogflow-designer
-    depends_on:
-      - fogflow-master
-      - dgraph-alpha
-    ports:
-      - "8090:8080"
     environment:
-      - master_ip=fogflow-master:1060
-      - dgraph_host=dgraph-alpha:9080
+      - TZ=America/Sao_Paulo
     networks:
       - fiware-net
-    
+
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
@@ -173,6 +128,8 @@ services:
       - "3000:3000"
     volumes:
       - grafana-data:/var/lib/grafana
+    environment:
+      - TZ=America/Sao_Paulo
     networks:
       - fiware-net
 
@@ -182,6 +139,8 @@ services:
     container_name: analysis
     ports:
       - "5000:5000"
+    environment:
+      - TZ=America/Sao_Paulo
     networks:
       - fiware-net
     healthcheck:
@@ -197,5 +156,4 @@ networks:
 volumes:
   mongo-data:
   cratedb-data:
-  dgraph-data:
   grafana-data:

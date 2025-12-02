@@ -22,7 +22,7 @@ with open(centroids_json_path, "r") as f:
 kmeans_threshold = config_data["threshold"]
 
 # --------- EXPORTAR RANDOM FOREST PARA C (m2cgen) ---------
-print("Gerando código C do RandomForest...")
+print("Gerando código C do RandomForest")
 # Obter as classes (ex: 'boa', 'moderada', 'ruim')
 # O m2cgen retorna um índice (0, 1, 2)
 classes_mapping = rf.classes_
@@ -35,7 +35,7 @@ with open(rf_model_c_path, "w") as f:
 print(f"Arquivo '{rf_model_c_path}' gerado com sucesso!")
 
 # --------- EXPORTAR CENTROIDES DO KMEANS ---------
-print("Gerando centroides do KMeans...")
+print("Gerando centroides do KMeans")
 
 centroids = kmeans.cluster_centers_
 n_clusters, n_features = centroids.shape
@@ -58,7 +58,7 @@ with open(kmeans_h_path, "w") as f:
 print(f"Arquivo '{kmeans_h_path}' gerado com sucesso!")
 
 # --------- EXPORTAR SCALER e CONSTANTES ---------
-print("Gerando constantes do Scaler e KMeans...")
+print("Gerando constantes do Scaler e KMeans")
 
 scaler_mean = scaler.mean_
 scaler_scale = scaler.scale_
@@ -87,5 +87,5 @@ with open(constants_h_path, "w") as f:
         f.write(f"// {i} = {class_name}\n")
     
 print(f"Arquivo '{constants_h_path}' gerado com sucesso!")
-print("\n✅ EXPORTAÇÃO PARA C CONCLUÍDA.")
+print("\n EXPORTAÇÃO PARA C CONCLUÍDA.")
 print("Próximo passo: rodar 'package_models.py' para juntar tudo.")

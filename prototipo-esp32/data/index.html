@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensor Hub Dashboard</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1><i class="fas fa-broadcast-tower"></i> ESP32 Sensor Hub</h1>
+    </header>
+
+    <main class="container">
+        <!-- Seção de Status -->
+        <section id="status-section" class="card">
+            <h2><i class="fas fa-signal"></i> Status da Conexão</h2>
+            <div class="grid-container status-grid">
+                <div class="status-item"><p><strong>SSID:</strong> <span id="wifi-ssid">--</span></p></div>
+                <div class="status-item"><p><strong>IP:</strong> <span id="ip-address">--</span></p></div>
+                <div class="status-item"><p><strong>Broker:</strong> <span id="mqtt-broker">--</span></p></div>
+                <div class="status-item"><p><strong>MQTT:</strong> <span id="mqtt-status" class="status-badge">--</span></p></div>
+                <div class="status-item"><p><strong>Último Envio:</strong> <span id="last-mqtt-success" class="status-badge">--</span></p></div>
+            </div>
+        </section>
+
+        <!-- Seção de Análise -->
+        <section id="analysis-section" class="card">
+            <h2><i class="fas fa-brain"></i> Análise Inteligente</h2>
+            <div class="grid-container analysis-grid">
+                <div class="analysis-item">
+                    <h3>Qualidade do Ar</h3>
+                    <p id="air-quality">--</p>
+                </div>
+                <div class="analysis-item">
+                    <h3>Anomalia Detectada</h3>
+                    <p id="anomaly">--</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção de Sensores -->
+        <section id="sensors-section" class="card">
+            <h2><i class="fas fa-tachometer-alt"></i> Leituras dos Sensores</h2>
+            <div class="grid-container sensors-grid">
+                <!-- Dados serão inseridos aqui pelo JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Atualizando dados automaticamente...</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

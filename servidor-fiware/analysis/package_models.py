@@ -9,7 +9,7 @@ rf_c_file = os.path.join(MODEL_DIR, "random_forest_model.c")
 kmeans_h_file = os.path.join(MODEL_DIR, "kmeans_centroids.h")
 constants_h_file = os.path.join(MODEL_DIR, "ml_constants.h")
 
-print(f"Iniciando empacotamento para '{FINAL_HEADER_FILE}'...")
+print(f"Iniciando empacotamento para '{FINAL_HEADER_FILE}'")
 
 try:
     with open(rf_c_file, "r") as f:
@@ -25,19 +25,14 @@ except FileNotFoundError as e:
 
 # --- Otimizar código C do m2cgen para ESP32 ---
 
-# 1. Renomear a função de 'score' para algo único
-# m2cgen gera uma função 'score'
 rf_code = rf_code.replace("double score(", "float predict_rf(")
 
-# 2. Trocar 'double' por 'float' (mais leve para o ESP32)
 rf_code = rf_code.replace("double", "float")
 
-# 3. Trocar funções de math para suas versões float
 rf_code = rf_code.replace("pow(", "powf(")
 rf_code = rf_code.replace("sqrt(", "sqrtf(")
 rf_code = rf_code.replace("fabs(", "fabsf(")
 
-# 4. Remover includes desnecessários (serão incluídos no .ino ou .h principal)
 rf_code = re.sub(r'#include\s+<math.h>\s*', '', rf_code)
 rf_code = re.sub(r'#include\s+<string.h>\s*', '', rf_code)
 
