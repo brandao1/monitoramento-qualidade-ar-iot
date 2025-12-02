@@ -112,9 +112,52 @@ joblib.dump(scaler, os.path.join(OUTPUT_DIR, "scaler.pkl"))
 print("Gerando labels de qualidade...")
 
 def classificar_qualidade_ar(row):
-    if row['ozone'] > 50 or row['carbonmonoxide'] > 500 or row['carbondioxide'] > 2000:
+    score = 0
+    
+    # Material Particulado (peso alto)
+    if row['pm25'] > 35:
+        score += 3
+    elif row['pm25'] > 15:
+        score += 2
+    elif row['pm25'] > 9:
+        score += 1
+        
+    if row['pm10'] > 150:
+        score += 3
+    elif row['pm10'] > 50:
+        score += 2
+    elif row['pm10'] > 45:
+        score += 1
+    
+    # Gases (peso médio-alto)
+    if row['ozone'] > 70:
+        score += 3
+    elif row['ozone'] > 50:
+        score += 2
+    elif row['ozone'] > 30:
+        score += 1
+        
+    if row['carbonmonoxide'] > 9:
+        score += 3
+    elif row['carbonmonoxide'] > 4:
+        score += 2
+        
+    if row['carbondioxide'] > 2000:
+        score += 2
+    elif row['carbondioxide'] > 1000:
+        score += 1
+        
+    if row['nitrogendioxide'] > 100:
+        score += 3
+    elif row['nitrogendioxide'] > 53:
+        score += 2
+    elif row['nitrogendioxide'] > 40:
+        score += 1
+    
+    # Classificação baseada no score acumulado
+    if score >= 6:
         return 'ruim'
-    elif row['ozone'] > 30 or row['carbonmonoxide'] > 200 or row['carbondioxide'] > 1000:
+    elif score >= 3:
         return 'moderada'
     else:
         return 'boa'
