@@ -1,6 +1,3 @@
-# train_export_models.py
-# Requisitos: pip install scikit-learn joblib pandas numpy
-
 import os
 import json
 import numpy as np
@@ -78,7 +75,7 @@ scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 
 # ---------- KMEANS ----------
-print("Treinando KMeans...")
+print("Treinando KMeans")
 n_clusters = 3
 kmeans = KMeans(n_clusters=n_clusters, random_state=42, n_init=10)
 kmeans.fit(X_scaled)
@@ -109,7 +106,7 @@ joblib.dump(kmeans, os.path.join(OUTPUT_DIR, "kmeans_model.pkl"))
 joblib.dump(scaler, os.path.join(OUTPUT_DIR, "scaler.pkl"))
 
 # ---------- RANDOM FOREST ----------
-print("Gerando labels de qualidade...")
+print("Gerando labels de qualidade")
 
 def classificar_qualidade_ar(row):
     if row['ozone'] > 50 or row['carbonmonoxide'] > 500 or row['carbondioxide'] > 2000:
